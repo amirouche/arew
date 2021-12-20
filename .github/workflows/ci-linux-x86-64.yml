@@ -1,0 +1,30 @@
+name: Linux x86-64
+
+on: [push]
+
+jobs:
+
+  ubuntu:
+    strategy:
+      fail-fast: false
+      matrix:
+        mach: ['ta6le']
+        ubuntu: ['ubuntu-20.04']
+
+    runs-on: ${{ matrix.ubuntu }}
+
+    env:
+      MACH: ${{ matrix.mach }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Proceed with TARGET_MACHINE == ${{ matrix.mach }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y uuid-dev libssl-dev
+      - name: Build Chez
+        run: .github/scripts/build.sh
+      - name: Test Chez
+        run: .github/scripts/test.sh

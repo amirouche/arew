@@ -1,0 +1,18 @@
+* DONE R7RS: .sld support https://github.com/cisco/ChezScheme/pull/396/files
+* DONE R7RS: number in library names
+* DONE Gambit style filesystem layout library foobar/foobar.sld
+
+* untangled: asynchronous, ambiant red library
+* tuitux: terminal ui, terminal ux
+* http client
+* http server
+* http websocket server
+* libtls bindings
+
+* R7RS: libraries from ruse
+* R7RS: cond-expand from chez-srfi
+
+* arew compile: remove all output
+* arew exec: improve arew-exec.md
+* arew repl: improve arew-repl.md
+* arew repl: add timing when it takes more than 1 second

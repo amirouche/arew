@@ -91,3 +91,4 @@ clean:
 	(cd rpm && $(MAKE) clean)
 	(cd pkg && $(MAKE) clean)
 	rm -f Make.out
+	rm -rf a/

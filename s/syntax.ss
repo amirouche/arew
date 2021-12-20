@@ -468,7 +468,9 @@
 
 (define generate-id
   (lambda (sym)
-    ((current-generate-id) sym)))
+    ((current-generate-id) (if (number? sym)
+                               (string->symbol (number->string sym))
+                               sym))))
 
 (define make-token:sym
   (lambda (token sym)
@@ -4766,7 +4768,6 @@
     (lambda (name)
       (syntax-case name ()
         [(dir-id ... file-id)
-         (and (andmap id? #'(dir-id ...)) (id? #'file-id))
          (let ([uid (generate-id (datum file-id))])
            (values #'(dir-id ... file-id) '() (datum->syntax #'* uid)))]
         [(dir-id ... file-id (version ...))
@@ -5143,7 +5144,6 @@
           [else (syntax-error name "unknown library")]))
       (syntax-case name ()
         [(dir-id ... file-id)
-         (and (andmap id? #'(dir-id ...)) (id? #'file-id))
          (do-lookup (datum (dir-id ... file-id)) #'file-id '())]
         [(dir-id ... file-id version-ref)
          (and (andmap id? #'(dir-id ...)) (id? #'file-id) (version-ref? #'version-ref))
@@ -5170,7 +5170,12 @@
         ($oops who "invalid path list ~s" dir*))
       (unless (and (list? all-ext*) (andmap string-pair? all-ext*))
         ($oops who "invalid extension list ~s" all-ext*))
-      (internal-library-search caller path dir* all-ext*)))
+      (let ((path* (append path (list (car (reverse path))))))
+        (call-with-values (lambda () (internal-library-search caller path* dir* all-ext*))
+          (lambda (x y z)
+            (if x
+                (values x y z)
+                (internal-library-search caller path dir* all-ext*)))))))
 
   (set-who! library-search-handler
     ($make-thread-parameter default-library-search-handler
@@ -5353,7 +5358,7 @@
       (lambda (who libref)
         (syntax-case libref ()
           [(dir-id ... file-id)
-           (and (andmap symbol? #'(dir-id ...)) (symbol? #'file-id))
+           #;(and (andmap symbol? #'(dir-id ...)) (symbol? #'file-id))
            (cond
              [(search-loaded-libraries #'(dir-id ... file-id)) =>
               (lambda (uid) (and (get-library-descriptor uid) uid))]
@@ -5696,11 +5701,13 @@
   (set-who! library-extensions
     (rec library-extensions
       ($make-thread-parameter
-        '((".chezscheme.sls" . ".chezscheme.so")
-          (".ss" . ".so")
-          (".sls" . ".so")
-          (".scm" . ".so")
-          (".sch" . ".so"))
+       '((".chezscheme.sld" . ".chezscheme.so")
+         (".chezscheme.sls" . ".chezscheme.so")
+         (".ss" . ".so")
+         (".sld" . ".so")
+         (".sls" . ".so")
+         (".scm" . ".so")
+         (".sch" . ".so"))
         (lambda (x)
           (define default-obj-ext
             (lambda (src-ext)
@@ -6653,7 +6660,7 @@
                 [_ #f])
         (syntax-error ex "invalid export spec"))))
 
-  (global-extend 'macro 'library
+  (define r6rs-library
     (lambda (orig)
       (syntax-case orig ()
         [(_ name exports imports form ...)
@@ -6673,7 +6680,42 @@
                         form ...)]
                   [_ (syntax-error #'imports "invalid library import subform")]))]
              [_ (syntax-error #'exports "invalid library export subform")]))])))
-)
+
+
+  (define r7rs-library
+    (lambda (orig)
+      (syntax-case orig ()
+	[(_ name body ...)
+         (let loop ((body* (syntax->list #'(body ...)))
+                    (import* '())
+                    (export* '())
+                    (form* '()))
+           (if (null? body*)
+               #`(library name
+                   (export #,@export*)
+                   (import #,@import*)
+                   (begin #,@form*))
+               (let ((head (syntax->list (car body*))))
+                 (case (syntax->datum (car head))
+		   ((include) (loop (cdr body*)
+				    import*
+				    export*
+				    (append form* (list (car body*)))))
+                   ((import) (loop (cdr body*)
+                                   (append (cdr head) import*)
+                                   export*
+                                   form*))
+                   ((export) (loop (cdr body*)
+                                   import*
+                                   (append (cdr head) export*)
+                                   form*))
+                   ((begin) (loop (cdr body*)
+                                  import*
+                                  export*
+                                  (append form* (cdr head))))))))])))
+
+  (global-extend 'macro 'library r6rs-library)
+  (global-extend 'macro 'define-library (lambda (orig) (r6rs-library (r7rs-library orig)))))
 
 (global-extend 'macro 'top-level-program
   (lambda (orig)

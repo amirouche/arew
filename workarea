@@ -504,4 +504,8 @@ case $M in
     ;;
 esac
 
+workdir $W/a
+ln -sf $(realpath "./a/makefile") $W/a/makefile
+cd $W/a/ && make source
+
 exit 0
