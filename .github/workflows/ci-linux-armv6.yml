@@ -1,0 +1,36 @@
+name: Linux ARMv6
+
+# on: [push]
+
+jobs:
+
+  ubuntu:
+    strategy:
+      fail-fast: false
+      matrix:
+        mach: ['arm32le', 'tarm32le']
+        distro: ['bullseye']
+
+    runs-on: 'ubuntu-20.04'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - uses: uraimo/run-on-arch-action@v2.1.1
+        with:
+          # Not required, but speeds up builds by storing container
+          # images in a GitHub package registry.
+          githubToken: ${{ github.token }}
+
+          arch: armv6
+          distro: ${{ matrix.distro }}
+
+          env: |
+            MACH: ${{ matrix.mach }}
+
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y make build-essential libssl-dev
+            .github/scripts/build.sh
+            .github/scripts/test.sh
