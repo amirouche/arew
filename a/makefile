@@ -16,7 +16,10 @@ source: $(rootsrc)
 arew/arew.wpo: $(shell find . -name "*.sld") $(shell find . -name "*.scm") $(shell find . -name "*.md")
 	echo "(generate-wpo-files #t)(compile-file \"arew/arew.sld\")" | $(SCHEME) --boot "$(PWD)/../boot/$(MACHINETYPE)/petite.boot" --boot "$(PWD)/../boot/$(MACHINETYPE)/scheme.boot" --quiet --compile-imported-libraries
 
-arew.boot: arew/arew.wpo
+arew.so: arew/arew.wpo srfi/9.sld arew/arew.sld arew/matchable.scm
+	echo '(concatenate-object-files "arew.so" "srfi/9.so" "arew/matchable.so" "arew/arew.so")' | $(SCHEME) --boot "$(PWD)/../boot/$(MACHINETYPE)/petite.boot" --boot "$(PWD)/../boot/$(MACHINETYPE)/scheme.boot"
+
+arew.boot: arew.so
 	rm -f arew.boot
 	$(SCHEME) --boot "$(PWD)/../boot/$(MACHINETYPE)/petite.boot" --boot "$(PWD)/../boot/$(MACHINETYPE)/scheme.boot" --program make-boot-file.scm $(shell find . -name "*.wpo")
 	cp arew.boot $(PWD)/../boot/$(MACHINETYPE)/arew.boot

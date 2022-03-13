@@ -62,6 +62,7 @@
 (define main.c (include-filename-as-string "arew/main.c"))
 (define kernel.o (include-filename-as-bytevector* "../boot/~a/kernel.o"))
 (define arew.boot (include-filename-as-bytevector "arew.boot"))
+(define arew.so (include-filename-as-bytevector "arew.so"))
 
 (define git-describe (let ((out (include-git-describe)))
                        (substring out 0 (fx- (string-length out) 1))))
@@ -302,9 +303,8 @@
     (define temporary-directory (pk 'temporary-directory
                                     (make-temporary-directory "/tmp/binjar-exe")))
 
-    (unless (null? directories)
-      (library-directories directories)
-      (source-directories directories))
+    (library-directories (cons* "." temporary-directory directories))
+    (source-directories (cons* "." temporary-directory directories))
 
     (when optimize-level*
       (optimize-level optimize-level*)
@@ -324,6 +324,10 @@
       (call-with-port (open-file-output-port (string-append temporary-directory "/arew.boot"))
         (lambda (port)
           (put-bytevector port arew.boot)))
+
+      (call-with-port (open-file-output-port (string-append temporary-directory "/arew.so"))
+        (lambda (port)
+          (put-bytevector port arew.so)))
 
       (call-with-output-file (string-append temporary-directory "/program.boot.scm")
         (lambda (port)
@@ -366,7 +370,7 @@
         (lambda (port)
           (put-bytevector port kernel.o)))
 
-      (system* (format #f "cc -m64 -ldl -lz -llz4 -lm -luuid -lpthread ~a ~a/main.c ~a/kernel.o -o ~a"
+      (system* (format #f "cc -m64 ~a ~a/main.c ~a/kernel.o -o ~a -ldl -lz -llz4 -lm -luuid -lpthread"
                        (string-join extra)
                        temporary-directory
                        temporary-directory
