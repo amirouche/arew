@@ -4,7 +4,7 @@ echo Building boot files...
 ./configure --pb -m=$MACH
 make ${MACH}.bootquick
 echo Building Chez Scheme...
-./configure -m=$MACH
+./configure -m=$MACH --kernelobj
 make
 case $MACH in
   *a6nt)
