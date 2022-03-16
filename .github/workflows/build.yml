@@ -3,14 +3,14 @@ name: Build CI
 on: [push, pull_request]
 
 jobs:
-  
+
   build-linux:
     runs-on: ubuntu-18.04
-    
+
     strategy:
       fail-fast: false
       matrix:
-        mach: ['i3le', 'ti3le', 'a6le', 'ta6le'] 
+        mach: ['i3le', 'ti3le', 'a6le', 'ta6le']
 
     env:
       MACH: ${{ matrix.mach }}
@@ -34,29 +34,5 @@ jobs:
           sudo apt-get install -y libncurses5-dev uuid-dev libssl-dev
       - name: Build Chez
         run: .github/scripts/build.sh
-      - name: Test Chez
-        run: .github/scripts/test.sh
-
-  build-arm64:
-    runs-on: [self-hosted, ARM64, Linux]
-    container:
-      image: racket/racket-ci:latest
-      options: --init
-    
-    env:
-      MACH: tarm64le
-      
-    steps:
-      - name: Checkout ChezScheme
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: 100
-      - name: Build Chez
-        run: |
-          ./configure --pb -m=$MACH
-          make ${MACH}.bootquick
-          ./configure -m=$MACH
-          make -j$(($(nproc)+1)) -l$(nproc)
       - name: Test Chez
         run: .github/scripts/test.sh
