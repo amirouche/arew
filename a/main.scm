@@ -65,7 +65,9 @@
 (define arew.so (include-filename-as-bytevector "arew.so"))
 
 (define git-describe (let ((out (include-git-describe)))
-                       (substring out 0 (fx- (string-length out) 1))))
+                       (if (= (string-length out) 0)
+                           "continuous-integration"
+                           (substring out 0 (fx- (string-length out) 1)))))
 
 (define (display-meta)
   (write `(tag ,git-describe))
