@@ -17,7 +17,7 @@ racket-chez/ta6le/bin/scheme:
 	cd racket-chez && git submodule init
 	cd racket-chez && git submodule update --depth 1
 	cd racket-chez && ./configure --pb
-	cd racket-chez && make -j $(nproc) ta6le.bootquick
+	cd racket-chez && make -j $(nproc) $(MACHINETYPE).bootquick
 	cd racket-chez && ./configure --kernelobj
 	cd racket-chez && make -j $(nproc)
 
@@ -26,7 +26,12 @@ racket: racket-chez/ta6le/bin/scheme
 PETITE_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/petite.boot
 SCHEME_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/scheme.boot
 
-arew: src/arew.scm
+arew: src/arew.scm racket
+	rm -rf src/arew
 	echo "(make-boot-file \"arew.boot\" '() \"$(PETITE_BOOT)\" \"$(SCHEME_BOOT)\") (exit)" | $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT)
 	mv arew.boot src/
 	cd src && $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --program arew.scm compile . arew.scm arew
+
+install: arew
+	mkdir -p $(HOME)/.local/bin/
+	mv src/arew $(HOME)/.local/bin/
