@@ -531,10 +531,10 @@
       (lambda (directories files extensions)
         ;; TODO: support discovery
         (when (null? files)
-          (error 'arew "Discovery is not supported yet, you need to provide one or more file with tests"))
+          (error 'arew "discovery is not supported yet, you need to provide one file with tests"))
 
         (unless (null? (cdr files))
-          (error 'arew "At this time, only one file can be checked at once"))
+          (error 'arew "at this time, only one file can be checked at once"))
 
         (unless (null? directories)
           (library-directories directories)
