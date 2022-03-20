@@ -5,9 +5,9 @@
 
   (import (chezscheme))
 
-  ;; Balanced binary tree based on Log-Balanced Search Trees (LBST)
-  ;; and slib's wttree.
+  ;; Binary tree based on Log-Balanced Search Trees (LBST), and slib.
   ;;
+  ;; ref: https://people.csail.mit.edu/jaffer/SLIB.html
   ;; ref: A new method for balancing binary search trees, S. Roura
   ;; ref: https://scholar.google.fr/scholar?cluster=16806430159882137269
 
