@@ -225,7 +225,7 @@ limited.
 
 Associate the bytevector `KEY`, with the bytevector `VALUE`.
 
-### `(okvs.dev-remove! handle key) okvs.dev-handle? bytevector?`
+### `(okvs.dev-remove! handle key)`
 
 Removes the bytevector `KEY`, and its associated value.
 
@@ -244,7 +244,7 @@ describing the position of the cursor:
 
 - If the the database is empty, returns `'cursor-empty`;
 
-### `(okvs.dev-cursor-next? cursor) okvs.dev-cursor? → boolean?`
+### `(okvs.dev-cursor-next? cursor)`
 
 Move the `CURSOR` to the next key if any, and returns `#t`. Otherwise,
 if there is no next key returns `#f`. `#f` means the cursor reached
