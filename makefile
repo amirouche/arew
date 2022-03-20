@@ -35,3 +35,7 @@ arew: src/arew.scm racket ## Build src/arew binary
 install: arew ## Install arew!
 	mkdir -p $(HOME)/.local/bin/
 	mv src/arew $(HOME)/.local/bin/
+
+clean:
+	find . -type f -name "*.so" -exec rm {} \;
+	find . -type f -name "*.wpo" -exec rm {} \;

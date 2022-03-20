@@ -60,7 +60,8 @@
   (when AREW_DEBUG
     (display ";;; " (current-error-port))
     (write args (current-error-port))
-    (newline (current-error-port)))
+    (newline (current-error-port))
+    (flush-output-port (current-error-port)))
   (car (reverse args)))
 
 (define (string-join strings)
@@ -395,15 +396,20 @@
     (library-extensions extensions))
 
   (when dev?
+    (compile-profile 'source)
     (generate-allocation-counts #t)
     (generate-instruction-counts #t))
 
-  (compile-imported-libraries #t)
-  (generate-wpo-files #t)
+  (unless dev?
+    (compile-imported-libraries #t)
+    (generate-wpo-files #t))
 
   (command-line (cons program.scm extra))
 
-  (load-program program.scm))
+  (load-program program.scm)
+
+  (when dev?
+    (profile-dump-html)))
 
 (define (arew-repl arguments)
 
@@ -453,7 +459,9 @@
 (define file->library
   (lambda (filename)
     (define sexp (call-with-input-file filename read))
-    (cadr sexp)))
+    (define library (cadr sexp))
+
+    (cons library (eval `(library-exports ',library) (environment '(chezscheme) library)))))
 
 (define append-map
   (lambda (proc objs)
@@ -461,21 +469,16 @@
 
 (define build-check-program
   (lambda (files)
-    (define libraries (map file->library files))
+    (define library (file->library (car files)))
 
-    (define program
-      `(let loopx ((libraries ',libraries))
-         (unless (null? libraries)
-           (let loopy ((thunks (library-exports (car libraries))))
-             (unless (null? thunks)
-               (let ((thunk (eval (car thunks) (environment '(chezscheme) (car libraries)))))
-                 (format #t "* Check from ~a named `~a`:\n\n" (car libraries) (car thunks))
-                 (thunk)
-                 (newline)
-                 (loopy (cdr thunks)))))
-           (loopx (cdr libraries)))))
+    `((import (chezscheme) ,(car library))
 
-    (values libraries program)))
+      (let loopy ((thunks (list ,@(cdr library))))
+        (unless (null? thunks)
+          (format #t "* Checking `~a`:\n\n" (car thunks))
+          ((car thunks))
+          (newline)
+          (loopy (cdr thunks)))))))
 
 (define arew-check
   (lambda (arguments)
@@ -503,9 +506,9 @@
               (let ((head (car strings)))
                 (cond
                  ((file-directory? head)
-                  (set! directories (cons head directories)))
+                  (set! directories (cons (make-filepath head) directories)))
                  ((file-regular? head #t)
-                  (set! files (cons head files)))
+                  (set! files (cons (make-filepath head) files)))
                  ((char=? (string-ref head 0) #\.)
                   (set! extensions (cons head extensions)))
                  (else
@@ -522,28 +525,36 @@
             (display-errors-and-exit errors)
             (values directories files extensions))))
 
+    (compile-profile 'source)
+
     (call-with-values (lambda () (massage (command-line-parse arguments)))
       (lambda (directories files extensions)
         ;; TODO: support discovery
         (when (null? files)
           (error 'arew "Discovery is not supported yet, you need to provide one or more file with tests"))
 
+        (unless (null? (cdr files))
+          (error 'arew "At this time, only one file can be checked at once"))
+
         (unless (null? directories)
           (library-directories directories)
           (source-directories directories))
 
-        (optimize-level 0)
-
         (unless (null? extensions)
           (library-extensions extensions))
 
-        (generate-allocation-counts #t)
-        (generate-instruction-counts #t)
-
-        (call-with-values (lambda () (build-check-program files))
-          (lambda (libraries program)
-            (define environment* (apply environment '(chezscheme) libraries))
-            (eval program environment*)))))))
+        (let* ((temporary-directory (make-temporary-directory "/tmp/arew-check"))
+               (check (string-append temporary-directory "/check.scm"))
+               (program (build-check-program files)))
+          (call-with-output-file check
+            (lambda (port)
+              (let loop ((program program))
+                (unless (null? program)
+                  (pretty-print (car program) port)
+                  (loop (cdr program))))))
+          (current-directory temporary-directory)
+          (arew-exec (list "--dev" "." check))
+          (format (current-output-port) "* profile can be found at: ~a/profile.html\n" temporary-directory))))))
 
 (self-evaluating-vectors #t)
 
