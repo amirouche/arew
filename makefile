@@ -26,12 +26,12 @@ racket: racket-chez/ta6le/bin/scheme
 PETITE_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/petite.boot
 SCHEME_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/scheme.boot
 
-arew: src/arew.scm racket
+arew: src/arew.scm racket ## Build src/arew binary
 	rm -rf src/arew
 	echo "(make-boot-file \"arew.boot\" '() \"$(PETITE_BOOT)\" \"$(SCHEME_BOOT)\") (exit)" | $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT)
 	mv arew.boot src/
 	cd src && $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --program arew.scm compile . arew.scm arew
 
-install: arew
+install: arew ## Install arew!
 	mkdir -p $(HOME)/.local/bin/
 	mv src/arew $(HOME)/.local/bin/

@@ -274,11 +274,13 @@
       (if a.out?
           (values dev? optimize-level* extensions directories program.scm a.out extra)
           (values dev? optimize-level* extensions directories program.scm extra))
-      (begin
-        (display "* Ooops :|")
-        (newline)
-        (for-each (lambda (x) (display "** ") (display x) (newline)) errors)
-        (exit 1))))
+      (display-errors-and-exit errors)))
+
+(define (display-errors-and-exit errors)
+  (display "* Ooops :|")
+  (newline)
+  (for-each (lambda (x) (display "** ") (display x) (newline)) errors)
+  (exit 1))
 
 (define arew-compile
   (lambda (arguments)
@@ -300,9 +302,9 @@
     (define-values (dev? optimize-level* extensions directories program.scm a.out extra)
       (parse-and-validate (command-line-parse arguments) #t #t))
 
-    (define temporary-directory (pk 'temporary-directory
-                                    (make-temporary-directory "/tmp/arew-compile")))
+    (define temporary-directory (make-temporary-directory "/tmp/arew-compile"))
 
+    ;; TODO: do not hard code current directory
     (library-directories (cons* "." temporary-directory directories))
     (source-directories (cons* "." temporary-directory directories))
 
@@ -447,6 +449,101 @@
                         args))
             (loop)))))))
 
+(define file->library
+  (lambda (filename)
+    (define sexp (call-with-input-file filename read))
+    (cadr sexp)))
+
+(define append-map
+  (lambda (proc objs)
+    (apply append (map proc objs))))
+
+(define build-check-program
+  (lambda (files)
+    (define libraries (map file->library files))
+
+    (define program
+      `(let loopx ((libraries ',libraries))
+         (unless (null? libraries)
+           (let loopy ((thunks (library-exports (car libraries))))
+             (unless (null? thunks)
+               (let ((thunk (eval (car thunks) (environment '(chezscheme) (car libraries)))))
+                 (format #t "* Check from ~a named `~a`:\n\n" (car libraries) (car thunks))
+                 (thunk)
+                 (newline)
+                 (loopy (cdr thunks)))))
+           (loopx (cdr libraries)))))
+
+    (values libraries program)))
+
+(define arew-check
+  (lambda (arguments)
+    (define massage
+      (lambda (arguments)
+        (define errors '())
+        (define fail-fast? #f)
+        (define extensions '())
+        (define directories '())
+        (define files '())
+
+        (define keywords!
+          (lambda (keywords)
+            (let loop ((keywords keywords))
+              (unless (null? keywords)
+                (case (car keywords)
+                  (fail-fast (set! fail-fast? #t) (loop (cdr keywords)))
+                  (else
+                   (set! errors (cons (format #f "Unexpected keyword: ~a" (car keywords)) errors))
+                   (loop (cdr keywords))))))))
+
+        (define standalone!
+          (lambda (strings)
+            (unless (null? strings)
+              (let ((head (car strings)))
+                (cond
+                 ((file-directory? head)
+                  (set! directories (cons head directories)))
+                 ((file-regular? head #t)
+                  (set! files (cons head files)))
+                 ((char=? (string-ref head 0) #\.)
+                  (set! extensions (cons head extensions)))
+                 (else
+                  (set! errors
+                        (cons (format #f "Does not look like a directory, file or extension: ~a"
+                                      head)
+                              errors)))))
+              (standalone! (cdr strings)))))
+
+        (keywords! (ref arguments 'keywords '()))
+        (standalone! (ref arguments 'standalone '()))
+
+        (if (not (null? errors))
+            (display-errors-and-exit errors)
+            (values directories files extensions))))
+
+    (call-with-values (lambda () (massage (command-line-parse arguments)))
+      (lambda (directories files extensions)
+        ;; TODO: support discovery
+        (when (null? files)
+          (error 'arew "Discovery is not supported yet, you need to provide one or more file with tests"))
+
+        (unless (null? directories)
+          (library-directories directories)
+          (source-directories directories))
+
+        (optimize-level 0)
+
+        (unless (null? extensions)
+          (library-extensions extensions))
+
+        (generate-allocation-counts #t)
+        (generate-instruction-counts #t)
+
+        (call-with-values (lambda () (build-check-program files))
+          (lambda (libraries program)
+            (define environment* (apply environment '(chezscheme) libraries))
+            (eval program environment*)))))))
+
 (self-evaluating-vectors #t)
 
 (when (null? (cdr (command-line)))
@@ -454,7 +551,8 @@
   (exit #f))
 
 (case (string->symbol (cadr (command-line)))
-  ((compile) (arew-compile (cddr (command-line))))
-  ((exec) (arew-exec (cddr (command-line))))
-  ((repl) (arew-repl (cddr (command-line))))
+  (check (arew-check (cddr (command-line))))
+  (compile (arew-compile (cddr (command-line))))
+  (exec (arew-exec (cddr (command-line))))
+  (repl (arew-repl (cddr (command-line))))
   (else (arew-usage) (exit #f)))
