@@ -91,7 +91,7 @@
 (define main.c (include-filename-as-string "main.c"))
 (define kernel.o (include-filename-as-bytevector* "../racket-chez/~a/boot/~a/kernel.o"))
 (define arew.boot (include-filename-as-bytevector "arew.boot"))
-;; (define arew.so (include-filename-as-bytevector "arew.so"))
+(define arew.concatenated.so (include-filename-as-bytevector "arew.concatenated.so"))
 
 (define git-describe (let ((out (include-git-describe)))
                        (if (= (string-length out) 0)
@@ -329,9 +329,9 @@
         (lambda (port)
           (put-bytevector port arew.boot)))
 
-      ;; (call-with-port (open-file-output-port (string-append temporary-directory "/arew.so"))
-      ;;   (lambda (port)
-      ;;     (put-bytevector port arew.so)))
+      (call-with-port (open-file-output-port (string-append temporary-directory "/arew.so"))
+        (lambda (port)
+          (put-bytevector port arew.concatenated.so)))
 
       (call-with-output-file (string-append temporary-directory "/program.boot.scm")
         (lambda (port)

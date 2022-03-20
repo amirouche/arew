@@ -26,15 +26,22 @@ racket: racket-chez/ta6le/bin/scheme
 PETITE_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/petite.boot
 SCHEME_BOOT=$(WORKSPACE)/boot/$(MACHINETYPE)/scheme.boot
 
-arew: src/arew.scm racket ## Build src/arew binary
-	rm -rf src/arew
+src/arew.wpo: src/arew.sls src/arew/matchable.sls src/arew/record.sls $(shell find src/arew/ -name "*.scm")
+	cd src && echo "(compile-imported-libraries #t)(generate-wpo-files #t)(compile-file \"arew.sls\")" | $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --quiet --compile-imported-libraries
+
+src/arew.concatenated.so: src/arew.wpo
+	cd src/ && echo '(concatenate-object-files "arew.concatenated.so" "arew/record.so" "arew/matchable.so" "arew.so")' | $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --quiet
+
+
+arew: src/arew.boot src/arew.concatenated.so racket ## Build src/arew binary
+	rm -rf arew
 	echo "(make-boot-file \"arew.boot\" '() \"$(PETITE_BOOT)\" \"$(SCHEME_BOOT)\") (exit)" | $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT)
 	mv arew.boot src/
-	cd src && $(SCHEME) --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --program arew.scm compile . arew.scm arew
+	cd src && $(SCHEME) --quiet --boot $(PETITE_BOOT) --boot $(SCHEME_BOOT) --program arew.scm compile . arew.scm ../arew
 
 install: arew ## Install arew!
 	mkdir -p $(HOME)/.local/bin/
-	mv src/arew $(HOME)/.local/bin/
+	mv arew $(HOME)/.local/bin/
 
 clean:
 	find . -type f -name "*.so" -exec rm {} \;

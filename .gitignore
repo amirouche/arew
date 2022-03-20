@@ -1,5 +1,6 @@
 tmp/
 *~
 src/arew.boot
-src/arew
 example
+*.so
+*.wpo

@@ -1,4 +1,4 @@
-(import (chezscheme))
+(import (arew))
 
 
 (display "hello world")
