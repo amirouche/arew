@@ -107,6 +107,7 @@
   (display arew.nfo)
   (newline)
   (display usage)
+  (newline)
   (display-meta))
 
 (define arew-usage
