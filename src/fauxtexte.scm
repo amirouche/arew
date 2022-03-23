@@ -1,10 +1,15 @@
 (import (arew))
+(import (only (chezscheme) current-time time-second))
 
 (import (arew matchable))
 
 (import (only (chezscheme)
               random random-seed
               file-regular? fasl-read fasl-write))
+
+
+(define (current-seconds)
+  (time-second (current-time)))
 
 (define (read-lines filename)
   (call-with-input-file filename
@@ -110,7 +115,7 @@
   (display "done!\n"))
 
 (define (generate filename . start)
-  (define oops (random-seed (modulo (exact (current-second)) (expt 2 32))))
+  (define oops (random-seed (modulo (exact (current-seconds)) (expt 2 32))))
 
   (define port (open-binary-input-file filename))
 

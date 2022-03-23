@@ -1,0 +1,781 @@
+1+1=1: an optimizing Caml compiler
+23 things I know about modules for Scheme
+A Better API for First-Class Continuations
+A better XML parser through functional programming
+A Blond Primer
+Abstract Analysis and Optimization of Scheme
+Abstract Compilation: a New Implementation Paradigm for Static Analysis
+Abstract continuations: a mathematical semantics for handling full jumps
+Abstracting Control
+Abstracting Timed Preemption with Engines
+Abstract Interpretation of Partial-Evaluation Algorithms
+Abstraction and Performance from Explicit Monadic Reflection
+A Calculus for Assignments in Higher-Order Languages
+A Closer Look At Export and Import Statements
+A Compacting Incremental Collector and its Performance in a Production Quality Compiler
+A Compilation and Optimization Model for Aspect-Oriented Programs
+A Compilation Strategy for Numerical Programs Based on Partial Evaluation
+A Computational Model for Observation in Quantum Mechanics
+A confluent calculus of Macro expansion and evaluation
+A Continuation-based Language Embedded in Scheme
+Across the Bridge between Reflection and Partial Evaluation
+ACT Parameterization Framework
+A Dataflow Language for Scriptable Debugging
+Adding Generic Functions to Scheme
+A Demand-Driven Adaptive Type Analysis
+A Denotational Approach to Flow Analysis and Optimization of SCHEME, A Dialect of LISP
+A deterministic model for modules and macros
+A Direct Implementation of Shift/Reset
+Advanced Control Flows for Flexible Graphical User Interfaces
+Advanced Macrology and the Implementation of Typed Scheme
+Advanced Programming Techniques Using Scheme
+A Dynamic Extent Control Operator for Partial Continuations
+A few principles of macro design
+A Framework for Memory-Management Experimentation
+A Fresh Look to Inlining Decision
+A Functional Abstraction of Typed Contexts
+A Hacker's Introduction to Partial Evaluation
+A Hybrid Approach to Online and Offline Partial Evaluation
+A Hybrid Approach To Online And Offline Partial Evaluation
+A library for quizzes
+A library of high-level control operators
+A Lisp programmer knows the value of everything, but the cost of nothing.
+A Logic System with First-Class Relations
+Alpha Kanren - A Fresh Name in Nominal Logic Programming
+Although my own previous enthusiasm has been for syntactically rich languages like the Algol family, I now see clearly and concretely the force of Minsky's 1970 Turing lecture, in which he argued that Lisp's uniformity of structure and power of self reference gave the programmer capabilities whose content was well worth the sacrifice of visual form.
+Although my own previous enthusiasm has been for syntactically rich languages, like the Algol family, I now see clearly and concretely the force of Minsky's 1970 Turing Lecture, in which he argued that Lisp's uniformity of structure and power of self reference gave the programmer capabilities whose content was well worth the sacrifice of visual form.
+A Metacircular Evaluator for a Logical Extension of Scheme
+A Modular Monadic Interpreter In Scheme With Objects
+A Module System for Scheme
+An Algorithm for Checking the Disjointness of Types
+Analyse et optimisation globales de modules compiles separement
+A Nanopass Infrastructure for Compiler Education
+An Application Framework For Compositional Modularity
+An applicative-order term rewriting system for code generation, and its termination analysis
+An Automatic Program Generator for Multi-Level Specialization
+And you're right: we were not out to win over the Lisp programmers; we were after the C++ programmers. We managed to drag a lot of them about halfway to Lisp. Aren't you happy?
+An Efficient Implementation of Multiple Return Values in Scheme
+A New Approach to Procedures with Variable Arity
+A New Way of Debugging LISP Programs
+An Executable Rewriting Logic Semantics of K-Scheme
+An Experimental Study of Renewal-Older-First Garbage Collection
+An Incremental Approach to Compiler Construction
+An infrastructure for profile-driven dynamic recompilation
+An Introduction to Partial Evaluation
+An Investigation of Contracts as Projections
+An On-line Partial Evaluator
+An Operational Semantics for R5RS Scheme
+An Operational Semantics for Scheme
+A notable group of exceptions to all the previous systems are Interactive LISP [...] and TRAC. Both are functionally oriented (one list, the other string), both talk to the user with one language, and both are "homoiconic" in that their internal and external representations are essentially the same. They both have the ability to dynamically create new functions which may then be elaborated at the users's pleasure. Their only great drawback is that programs written in them look like King Burniburiach's letter to the Sumerians done in Babylonian cuniform!
+An (other) Integration of Logic and Functional Programming
+AOP Language Exploration Using the Aspect Sand Box
+A Parallelizing Compiler Based on Partial Evaluation
+A Partial Evaluator for the Untyped Lambda Calculus
+A pattern-matcher for miniKanren -or- How to get into trouble with CPS macros
+APL is like a beautiful diamond - flawless, beautifully symmetrical. But you can't add anything to it. If you try to glue on another diamond, you don't get a bigger diamond. Lisp is like a ball of mud. Add more and it's still a ball of mud - it still looks like Lisp.
+A Polyvariant Closure Analysis with Dynamic Widening
+A portable implementation of first-class continuations for unrestricted interoperability with C in a multithreaded Scheme
+Applications of Continuations: Invited Tutorial
+Applications of Fold to XML Transformation
+A Practical and Flexible Flow Analysis for Higher-Order Languages
+A Practical Soft Type System for Scheme
+A proposal for a modular Lisp with macros and dynamic evaluation
+Architecture Design and Compilation Techniques Using Partial Evaluation in Reflective Concurrent Object-Oriented Languages
+A Reduction Semantics for Imperative Higher-Order Languages
+A Reflective Model for First Class Dependencies
+A Reflective Model of Inheritance
+A Reflective System is as Extensible as its Internal Representations: An Illustration
+Are there people using the Scheme programming language out there?
+A Revised State Space Model for a Logic Programming Embedding in Scheme
+A Scheme for a Higher-Level Semantic Algebra
+A Scheme for Interactive Graphics
+A Scheme for Little Languages in Interactive Graphics
+A Scheme Shell - The design paper on the Scheme shell scsh
+A Security Kernel Based on the Lambda-Calculus
+A Self-Applicable Partial Evaluator for Term Rewriting Systems
+A Self-Hosting Evaluator using HOAS
+A Semantic Algebra for Logic Programming
+A Semantic Comparison of Lisp and Scheme
+A Semantics for Advice and Dynamic Join Points in Aspect-Oriented Programming
+A Semantics for Pointcuts and Advice in Higher-Order Languages
+A Simple Reflective Interpreter
+Askemos - a distributed settlement
+A Sketch of Complete Type Inference for Functional Programming
+Aspects of the PGG System: Specialization for Standard Scheme
+A Stepper for Scheme Macros
+A Study in Higher-Order Programming Languages
+A Suite of WWW-based Tools for Advanced Course Management
+A Syntactic Approach to Type Soundness
+A Syntactic Closures Macro Facility
+A Syntactic Theory of Dynamic Binding
+A Syntactic Theory of Sequential Control
+A Syntactic Theory of Sequential State
+A Tail-Recursive Machine with Stack Inspection
+A Tail-Recursive Semantics for Stack Inspections
+A tour of Schism: a partial evaluation system for higher-order applicative languages
+A typeful composition model for dynamic software architectures
+A Uniform Approach to Programming the World Wide Web
+A universal scripting framework or Lambda: the ultimate little language
+Automata as Macros
+Automatically Restructuring Programs for the Web
+Automatically Restructuring Software for the Web
+Automatic Autoprojection of Higher Order Recursive Equations
+Automatic Autoprojection of Recursive Equations with Global Variables and Abstract Data Types
+Automatic construction of parse trees for lexemes
+Automatic generation of compact programs and virtual machines for Scheme
+Automatic Online Partial Evaluation
+Automatic program specialization by partial evaluation: an introduction
+Automatic Program Specialization for Interactive Media
+A Variable-Arity Procedural Interface
+A variadic extension of Curry's fixed-point combinator
+A Visual Environment for Developing Context-Sensitive Term Rewriting Systems
+Avoiding Redundant Specialization During Partial Evaluation
+Back to Direct Style
+Back to direct style II: First-class continuations
+Bee: an Integrated Development Environment for the Scheme Programming Language
+Behavioral Software Contracts
+Benchmarking Implementations of Functional Languages with ``Pseudoknot'' a Float-Intensive Benchmark
+Benefits of learning scheme?
+Beyond Continuations
+Biglook: a Widget Library for the Scheme Programming Language
+Binary parsing
+Binding-Time Analysis for Both Static and Dynamic Expressions
+BIT: A very compact Scheme system for embedded applications
+Bochser: An Integrated Scheme Programming System
+Bootstrapping Higher-Order Program Transformers from Interpreters
+BRL: A database-oriented language to embed in HTML and other markup
+Bugloo: A Source Level Debugger for Scheme Programs Compiled into JVM Bytecode
+Building Interpreters by Transforming Stratified Monads
+Building Little Languages with Macros
+By policy, LISP has never really catered to mere mortals. And, of course, mere mortals have never really forgiven LISP for not catering to them.
+Caching Considerations for Generational Garbage Collection
+Call with Current Continuation Patterns
+Can partial evaluation improve the performance of ray tracing?
+Catching Bugs in the Web of Program Invariants
+C-Flavours: A Scheme-based Flavour System with Co-routines and its Application to the Design of Object-Oriented Software
+Characterizing the Paralation Model using Dynamic Assignment
+Chez Scheme User's Guide
+C is coupled with Unix in the worse-is-better scenario, and can anyone seriously propose Lisp as the right-thing alternative? Lisp, face it, is used for advanced research and development in AI and other esoteric areas. It has weird syntax, and almost all other computer languages share a non-Lispy syntax. Syntax, folks, is religion, and Lisp is the wrong one. Lisp is used by weirdos who do weirdo science.
+cKanren: miniKanren with Constraints
+Classes and Mixins
+Cleaning up the Tower: Numbers in Scheme
+Closure Generation Based on Viewing LAMBDA As EPSILON Plus COMPILE
+Coercion as a Metaphor for Computation
+Cogen in Six Lines
+Combiner Logiquement en Scheme
+Commander S - The shell as a browser
+Common Lisp, a happy amalgam of the features of previous Lisps
+Common Lisp is politics, not art.
+Common Lisp people seem to behave in a way that is akin to the Borg: they study the various new things that people do with interest and then find that it was eminently doable in Common Lisp all along and that they can use these new techniques if they think they need them.
+Compilation of Non-Linear, Second Order Patterns on S-Expressions
+Compilation Semantics of Aspect-Oriented Programs
+Compiler Generation by Partial Evaluation
+Compiler Generation for Interactive Graphics using Intermediate Code
+Compiling actions by partial evaluation
+Compiling Actions by Partial Evaluation, Revisited
+Compiling Adaptive Programs by Partial Evaluation
+Compiling Java to PLT Scheme
+Compiling Lambda Expressions Using Continuations and Factorizations
+Compiling laziness by partial evaluation
+Compiling Monads
+Compiling Scientific Code using Partial Evaluation
+Compiling Scientific Code Using Partial Evaluation
+Compiling with Flow Analysis
+Component Deployment with PLaneT: You Want it Where?
+Componential Set-Based Analysis
+Component Support in PLT Scheme
+Composable and Compilable Macros: You Want it When?
+Computationally Extended Logic Programming
+Computer-Assisted Lighting Design and Control
+Computing Types During Program Specialization
+Constraining Control
+Continuation-Based Multiprocessing
+Continuation-Based Multiprocessing Revisited
+Continuation-Based Partial Evaluation
+Continuation-Based Program Transformation Strategies
+Continuation conscious compilation
+Continuation Introduction and Elimination in Higher-Order Programming Languages
+Continuations and Concurrency
+Continuations and conversations
+Continuations and Coroutines
+Continuations and threads: Expressing machine concurrency directly in advanced languages
+Continuation sensitive compilation
+Continuations from Generalized Stack Inspection
+Continuations in Hardware-Software Codesign
+Continuing Into the Future: On the Interaction of Futures and First-Class Continuations
+Contracts for Higher-Order Functions
+Control Delimiters and Their Hierarchies
+Control flow analysis: a functional languages compilation paradigm
+Control-flow analysis in Scheme
+Control-Flow Analysis of Higher-Order Languages
+Control operators, the SECD-machine, and the lambda-calculus
+CPS data-flow analysis example
+Creating Efficient Programs by Exchanging Data for Procedures
+Crossing State Lines: Adapting Object-Oriented Frameworks to Functional Reactive Languages
+CSKIM: An Extended Dialect of Scheme
+Data-flow analysis and type recovery in Scheme
+Debugging Scheme Fair Threads
+Demand-Driven Type Analysis: an Introduction
+Demand-driven type analysis for dynamically-typed functional languages
+Deriving a Comprehensive Document from a Concise Document - Document Engineering in Scheme
+Design and Partial Evaluation of Meta-objects for a Concurrent Reflective Language
+Designing MEROON v3
+Design of a Lisp-based Processor
+Design of LISP-based Processors, or SCHEME: A Dielectric LISP, or Finite Memories Considered Harmful, or LAMBDA: The Ultimate Opcode
+Destination-Driven Code Generation
+Developing Interactive Web Programs
+Development of LAML - A Suite of Web Software for Scheme
+Difference between define, let and set!
+Digital Libraries Journal
+Direct Style from Monadic Style and Back
+Distributed Partial Evaluation
+DOLIST is similar to Perl's foreach or Python's for. Java added a similar kind of loop construct with the "enhanced" for loop in Java 1.5, as part of JSR-201. Notice what a difference macros make. A Lisp programmer who notices a common pattern in their code can write a macro to give themselves a source-level abstraction of that pattern. A Java programmer who notices the same pattern has to convince Sun that this particular abstraction is worth adding to the language. Then Sun has to publish a JSR and convene an industry-wide "expert group" to hash everything out. That process--according to Sun--takes an average of 18 months. After that, the compiler writers all have to go upgrade their compilers to support the new feature. And even once the Java programmer's favorite compiler supports the new version of Java, they probably still can't use the new feature until they're allowed to break source compatibility with older versions of Java. So an annoyance that Common Lisp programmers can resolve for themselves within five minutes plagues Java programmers for years.
+Don't Stop the BiBOP: Flexible and Efficient Storage Management for Dynamically-Typed Languages
+Don't worry about what anybody else is going to do. The best way to predict the future is to invent it.
+Dot-Scheme: A PLT Scheme FFI for the .NET framework
+DrScheme: A Pedagogic Programming Environment for Scheme
+DrScheme: A Programming Environment for Scheme
+Duplication and Partial Evaluation - For a Better Understanding of Reflective Languages
+Dynamic Identifiers can be Neat
+Dynamic Modules in Higher-Order Languages
+Eager Comprehensions in Scheme: The design of SRFI-42
+Effective Flow Analysis for Avoiding Runtime Checks
+Effectiveness of Flow Analysis for Inlining
+Effective Static Debugging via Componential Set-Based Analysis
+Efficient analyses for realistic off-line partial evaluation
+Efficient analyses for realistic off-line partial evaluation: extended version
+Efficient Compilation and Profile-Driven Dynamic Recompilation in Scheme
+Efficient Multi-Level Generating Extensions for Program Specialization
+Emacs is written in Lisp, which is the only computer language that is beautiful.
+Embedding Continuations in Procedural Objects
+Embedding Dynamic Dataflow in a Call-by-Value Language
+Embedding the Self Language in Scheme
+Enabling Complex UI In Web Applications With send/suspend/dispatch
+Enabling cross-library optimization and compile-time error checking in the presence of procedural macros
+Engines Build Process Abstractions
+Engines from Continuations
+Enumeration Algorithms and Non-deterministic Programming in Scheme
+Environments as First-Class Objects
+Eta-Expansion Does the Trick
+Etos: an Erlang to Scheme compiler
+European Conference on Object-Oriented Programming
+Executable Connectors: Towards Reusable Design Elements
+Expansion-Passing Style: A General Macro Mechanism
+Expansion-Passing style: Beyond Conventional Macros
+Experiences with Scheme in an Electro-Optics Laboratory
+Experiment around a training engine
+Explicit and Implicit Aspects of Scope and Block Structure
+Exploiting the Parallelism Exposed by Partial Evaluation
+Extending the Scope of Syntactic Abstraction
+Extensible Language Implementation
+Fast and compact dispatching for dynamic object-oriented languages
+Fast and Effective Procedure Inlining
+Fast Binding-Time Analysis for Multi-Level Specialization
+Fast Partial Evaluation of Pattern Matching in Strings
+Final shift for call/cc: Direct implementation of shift and reset
+Finding the Source of Type Errors
+First-class Data-type Representations in Scheme Xerox
+First-Class Extents
+First-class macros have types
+Fixpoint Computation for Polyvariant Static Analyses of Higher-Order Applicative Programs
+Flow-Directed Inlining
+Flow-Directed Lightweight Closure Conversion
+For a Better Support of Static Data Flow
+Foreign-Function Interfaces for Garbage-Collected Programming Languages
+Foreign Interface for PLT Scheme
+Formal derivation of a scheme computer
+Formalizing Implementation Strategies for First-Class Continuations
+Fostering Little Languages
+Foundations of Partial Evaluation and Program Specialization
+Fragmental Specialization
+Free Variables and First-Class Environments
+From Direct Style to Monadic Style through Continuation-Passing Style
+From Interpreting to Compiling Binding Times
+From Macros to Reusable Generative Programming
+From Proof Normalization to Compiler Generation and Type-Directed Change-of-Representation
+From Python to PLT Scheme
+From Variadic Functions to Variadic Relations: A miniKanren Perspective
+FrTime: Functional Reactive Programming in PLT Scheme
+Ftypes: Structured foreign types
+Functional Data Structures for Typed Racket
+Gannet: a Scheme for Task-level Reconfiguration of Service-based Systems-on-Chip
+Garbage Collection is Fast, But a Stack is Faster
+Generalization in Hierarchies of Online Program Specialization Systems
+General ways to traverse collections
+Generating a compiler for a lazy language by partial evaluation
+Generating action compilers by partial evaluation
+Generating a Pattern Matching Compiler by Partial Evaluation
+Generating Compiled Simulations Using Partial Evaluation
+Generating Optimizing Specializers
+Generating Transformers for Deforestation and Supercompilation
+Generation de machines virtuelles pour l'execution de programmes compresses
+Get stuffed: Tightly packed abstract protocols in Scheme
+Global Tagging Optimization by Type Inference
+Godelization in the untyped lambda calculus
+God wrote in Lisp code When he filled the leaves with green. The fractal flowers and recursive roots: The most lovely hack I've seen.
+GOld: a link-time optimizer for Scheme
+Gradual Typing for Functional Languages
+Graphs as an Intermediate Representation for Partial Evaluation
+Greenspun's Tenth Rule of Programming: any sufficiently complicated C or Fortran program contains an ad hoc informally-specified bug-ridden slow implementation of half of Common Lisp.
+Guardians in a Generation-based Collector
+Higher-Order and Symbolic Computation
+Higher-Order Code Splicing
+History of T
+HopTex, compiling HTML to LaTeX with CSS
+How can I do web programming with Lisp or Scheme?
+How does Lisp let you redefine the language itself?
+How is Racket different from Scheme?
+How to Add Threads to a Sequential Language Without Getting Tangled Up
+How to print floating-point numbers accurately
+How to read floating point numbers accurately
+How to read mentally Lisp/Clojure code
+How to write seemingly unhygienic and referentially opaque macros with syntax-rules
+HTML/XML authoring in Scheme
+Hygienic Literate Programming: Lessons from ChezWEB
+Hygienic macro expansion
+Hygienic macros through explicit renaming
+I finally understood that the half page of code on the bottom of page 13 of the Lisp 1.5 manual was Lisp in itself. These were "Maxwell’s Equations of Software!"
+If you want to know why Lisp doesn't win around you, find a mirror.
+I have heard more than one LISP advocate state such subjective comments as, "LISP is the most powerful and elegant programming language in the world" and expect such comments to be taken as objective truth. I have never heard a Java, C++, C, Perl, or Python advocate make the same claim about their own language of choice.
+Implementation Notes for the Termination-Guaranteeing Binding-Time Analysis
+Implementation strategies for continuations
+Implementation strategies for Scheme-based Prolog systems
+Implementing a Bibliography Processor in Scheme
+Implementing a Static Debugger for a First-Order Functional Programming Language
+Implementing lexically scoped macros
+Implementing Memoization for Partial Evaluation
+Implementing Metcast in Scheme
+Implementing User-level Value-weak Hashtables
+Improving binding times without explicit CPS-conversion
+Improving CPS-Based Partial Evaluation
+Improving the Accuracy of Higher-Order Specialization using Control Flow Analysis
+Improving the Static Analysis of Embedded Languages via Partial Evaluation
+In 30 years Lisp will likely be ahead of C++/Java (but behind something else)
+Including Common Lisp.
+Incorporating Scheme-based web programming in computer-literacy courses
+Incorporating Scheme-based Web Programmming into Computer Literacy Courses
+Incremental Programming with Extensible Decisions
+Inheritance Mechanism Reification by Means of First Class Object
+Inline expansion: when and how?
+In spite of its lack of popularity, LISP ... remains an influential language in "key algorithmic techniques such as recursion and condescension"
+Integrating Partial Evaluators into Interpreters
+Integrating Tools and Resources: a case study in building educational groupware for collaborative programming
+Integration reflexive de dependances dans un modele a classes
+Intensional and Extensional Aspects of Partial Evaluation
+Intensions and Extensions in a Reflective Tower
+Interaction-Safe State for the Web
+Interactive Modular Programming in Scheme
+Interim 3-LISP Reference Manual
+International Symposium on Functional and Logic Programming
+International Symposium on Practical Aspects of Declarative Languages
+International Symposium on Programming Languages: Implementations, Logics, and Programs
+Interprocedural Dependence Analysis of Higher-Order Programs via Stack Reachability
+Inverting back the inversion of control or, continuations versus page-centric programming
+I object to doing things that computers can do.
+Is a statically-typed full Lisp variant possible?
+Is Continuation-Passing Useful for Data Flow Analysis?
+Is it feasible to do (serious) web development in Lisp?
+Is there a software-engineering methodology for functional programming?
+I suppose I should learn Lisp, but it seems so foreign.
+Jargons: Experimenting Composable Domain-Specific Languages
+Java was, as Gosling says in the first Java white paper, designed for average programmers. It's a perfectly legitimate goal to design a language for average programmers. (Or for that matter for small children, like Logo.) But it is also a legitimate, and very different, goal to design a language for good programmers.
+JazzScheme: Evolution of a Lisp-Based Development System
+John Allen in the chapter on Implications of LISP writes: "the power of high level languages is notational rather than computational". This insight is the most significant lesson that LISP teaches, and points to the possibility of going Beyond Programming in the "Age of Significance"
+Jscheme Web Programming for CS0
+Keeping it Clean with syntax-parameterize
+Lambda-dropping: transforming recursive equations into programs with block structure
+Lambda-Dropping: Transforming Recursive Equations into Programs with Block Structure
+Lambda-v-CS: An Extended Lambda-Calculus for Scheme
+Language designers are not intellectuals. They're not as interested in thinking as you might hope. They just want to get a language done and start using it.
+Language Extensibility via First-class Interpreters and Constructive Modules
+Language Extension via First-class Interpreters
+Lexer and Parser Generators in Scheme
+Linguistic Reuse
+Link-time Improvement of Scheme Programs
+LISP: A Language for Stratified Design
+LISP and Functional Programming
+Lisp and Symbolic Computation
+Lisp and Symbolic Computation: An International Journal
+Lisp doesn't look any deader than usual to me.
+Lisp has jokingly been called "the most intelligent way to misuse a computer". I think that description is a great compliment because it transmits the full flavor of liberation: it has assisted a number of our most gifted fellow humans in thinking previously impossible thoughts.
+Lisp is a programmable programming language.
+Lisp is a programmer amplifier.
+LISP is now the second oldest programming language in present widespread use (after FORTRAN)... Its core occupies some kind of local optimum in the space of programming languages given that static friction discourages purely notational changes. Recursive use of conditional expressions, representation of symbolic information externally by lists and internally by list structure, and representation of program in the same way will probably have a very long life.
+Lisp isn't a language, it's a building material.
+Lisp is worth learning for the profound enlightenment experience you will have when you finally get it; that experience will make you a better programmer for the rest of your days, even if you never actually use Lisp itself a lot.
+Lisp ... made me aware that software could be close to executable mathematics.
+LispMe: An Implementation of Scheme for the PalmPilot
+LISP, Programming and Implementation
+Lisp was far more powerful and flexible than any other language of its day; in fact, it is still a better design than most languages of today, twenty-five years later. Lisp freed ITS's hackers to think in unusual and creative ways. It was a major factor in their successes, and remains one of hackerdom's favorite languages.
+Literate programming from scheme to TEX
+Literate XML/DTD programming
+Little Languages and their Programming Environments
+Locality, causality and continuations
+Logic Continuations
+LogScheme: Integrating Logic Programming into Scheme
+Macaroni is Better than Spaghetti
+Macro-by-example: Deriving syntactic transformations from their specifications
+Macroexpansion reflective tower
+Macros in Scheme
+Macros that Compose: Systematic Macro Programming
+Macros that work
+MacScheme Reference Manual
+Measuring the Effectiveness of Error Messages Designed for Novice Programmers
+Memory Accounting without Partitions
+Memory Allocation and Higher-Order Functions
+Merging Interactive, Modular and Object-Oriented Programming
+MEROON: A small, efficient and enhanced object system
+Meta-Level Building Blocks for Modular Systems
+Micro-Scheme
+MIX Ten Years Later
+Mobile Reactive Programming in ULM
+Modeling an Algebraic Stepper
+Modeling Continuations Without Continuations
+Modeling Crosscutting in Aspect-Oriented Mechanisms
+Modeling Web Interactions
+Modeling Web Interactions and Errors
+Modular and Polymorphic Set-Based Analysis: Theory and Practice
+Modular Macros
+Modular Object-Oriented Programming with Units and Mixins
+Modular Set-Based Analysis from Contracts
+Modules, macros and Lisp
+Monadic Programming in Scheme
+Montage: Breaking Windows into Small Pieces
+More about Formatting
+Most papers in computer science describe how their author learned what someone else already knew.
+Multi-Level Specialization (Extended Abstract)
+Multi-way Streams in Scheme
+MysterX: A Scheme Toolkit for Building Interactive Applications with COM
+New Insights into Partial Evaluation: the SCHISM Experiment
+Nondeterminism and unification in LogScheme: integrating logic and functional programming
+Numerical partial differential equations in Scheme
+Oaklisp: an Object-Oriented Dialect of Scheme
+Oaklisp: an Object-Oriented Scheme with First Class Types
+Object and Dependency Oriented Programming in FLO
+Object-oriented programming in Scheme
+Object-Oriented Style". International LISP Conference
+Obtaining Coroutines With Continuations
+Obtaining Lazy Evaluation with Continuations in Scheme
+Occam's Razor in Metacomputation: the Notion of a Perfect Process Tree
+Offline Partial Evaluation for Shift and Reset
+One can even conjecture that Lisp owes its survival specifically to the fact that its programs are lists, which everyone, including me, has regarded as a disadvantage.
+One of the most important and fascinating of all computer languages is Lisp (standing for "List Processing"), which was invented by John McCarthy around the time Algol was invented.
+Online-and-Offline Partial Evaluation: A Mixed Approach
+On-line and Off-line Partial Evaluation: Semantic Specifications and Correctness Proofs
+Online partial evaluation for shift and reset
+Online Type-Directed Partial Evaluation
+Online Type-Directed Partial Evaluation for Dynamically-Typed Languages
+On listing list prefixes
+On Obtaining Knuth, Morris, and Pratt's String Matcher by Partial Evaluation
+On some Functional Aspects of Control
+On Static Properties of Specialized Programs
+On the Specialization of Online Program Specializers
+On the use of LISP in implementing denotational semantics
+OOOZ, A multi-User Programming Environment Based on Scheme
+Opportunities for Online Partial Evaluation
+Optimizing Floating Point Operations in Scheme
+Partial Continuations as the Difference of Continuations
+Partial Evaluation and Automatic Program Generation
+Partial Evaluation and Semantics-Directed Program Manipulation
+Partial Evaluation and the Generation of Program Generators
+Partial evaluation applied to numerical computation
+Partial evaluation applied to symbolic pattern matching with intelligent backtrack
+Partial evaluation as a compiler for reflective languages
+Partial Evaluation as a Means of Language Extensibility
+Partial Evaluation for Higher-Order Languages with State
+Partial Evaluation for Scientific Computing: The Supercomputer Toolkit Experience
+Partial Evaluation in Parallel
+Partial Evaluation in Reflective System Implementations
+Partial Evaluation of Call-by-value Lambda-calculus with Side-effects
+Partial evaluation of general parsers
+Partial evaluation of General Parsers
+Partial evaluation of lambda calculus
+Partial Evaluation of Pattern Matching in Strings
+Partial Evaluation of Pattern Matching in Strings, revisited
+Partial Evaluation of the Euclidian Algorithm
+Partial Evaluation: Principles and Perspectives
+Partial Evaluation Termination Analysis and Specialization-Point Insertion
+Partial Evaluation using Rewrite Rules: A Specification of a Partial Evaluator for Similix in Stratego
+Pascal is for building pyramids -- imposing, breathtaking, static structures built by armies pushing heavy blocks into place. Lisp is for building organisms -- imposing, breathtaking, dynamic structures built by squads fitting fluctuating myriads of simpler organisms into place.
+Performance Evaluation of the Scheme 86 and HP Precision Architecture
+PICBIT: A Scheme System for the PIC Microcontroller
+Picolo Expresso
+PLoT Scheme
+Ploymorphic Type-Checking in Scheme
+Pointcuts and Advice in Higher-Order Languages
+Polymorphic Binding Time Analysis
+Polymorphic Splitting: An Effective Polyvariant Flow Analysis
+Polyvariant binding-time analysis for higher-order, applicative languages
+Polyvariant Expansion and Compilergenerators
+Polyvariant specialization for higher-order, block-structured languages
+Porting Scheme Programs
+POWER - Program Oriented Web EngineeRing
+Practical Partial Evaluation
+Practical Soft Typing
+Pragmatics of Type-Directed Partial Evaluation
+Predicting Properties of Residual Programs
+Predicting Properties of Specialized Programs
+Preprocessing by Specialization
+Preserving Information During Online Partial Evaluation
+Principles of Programming Languages
+Printing Floating Point Numbers Quickly and Accurately
+Proceedings of the Third International Conference on Logic Programming
+Program and Data Specialization Principles, Applications, and Self-Application
+Programmable Applications: Interpreter Meets Interface
+Programmatic WWW authoring using Scheme and LAML
+Programming and Proving with Function and Control Abstractions
+Programming Graphical User Interfaces with Scheme
+Programming Languages as Operating Systems (or, Revenge of the Son of the Lisp Machine)
+Programming Languages for Reusable Software Components
+Programming Language Support For Separation Of Concerns
+Programming Techniques for Partial Evaluation
+Programming the Web with High-Level Programming Languages
+Programming with Continuations
+Programming with Tighter Control
+Programming World Wide Web pages in Scheme
+Program mobile robots in Scheme
+Programs must be written for people to read, and only incidentally for machines to execute.
+Program Verification through Soft Typing
+Proofs by structural induction using partial evaluation
+Proper tail recursion and space efficiency
+Pushdown Control-Flow Analysis of Higher-Order Programs
+Quasiquotation in Lisp
+Quasi-Static Scoping: Sharing Variable Bindings Across Multiple Lexical Scopes
+Randomized Testing in PLT Redex
+Reachability-based memory accounting
+Realistic Compilation by Partial Evaluation
+Realistic Compilation by Program Transformation
+Reasoning about Hierarchies of Online Program Specialization Systems
+Reasoning about Programs in Continuation-Passing Style
+Reasoning with Continuations
+Reasoning with Continuations II: Full Abstraction for Models of Control
+Recursion and Circularity: Extended Puzzle with Solution
+Recycling Continuations
+Reecriture et recursion dans une fermeture - Etude dans un Lisp a liaison superficielle - Application aux objets
+Refining Hygienic Macros for Modules and Separate Compilation
+Reflecting Java into Scheme
+Reflecting on the Metalevel Interpreter Written in Direct Style
+Reflection and Semantics in a Procedural Language
+Reflection and semantics in LISP
+Reflections on Landin's J-Operator: A Partly Historical Note
+Reflective Building Blocks for Modular Systems
+Register Allocation Using Lazy Saves, Eager Restores, and Greedy Shuffling
+Reification: Reflection Without Metaphysics
+Reifying Inheritance in a Reflective Language
+Reliable Interactive Programming with Modules
+Representing Control: A Study of the CPS Transformation
+Representing Control in the Presence of First-Class Continuations
+Representing Control in the Presence of One-Shot Continuations
+Representing Type Information in Dynamically Typed Languages
+Resource-bounded partial evaluation
+Return Value Placement and Tail Call Optimization in High Level Languages
+Re-writing abstractions, or Lambda: the ultimate pattern macro
+Rgc: un generateur d'analyseurs lexicaux efficaces en Scheme
+Robust and effective transformation of letrec
+Roles of a Partial Evaluator for the Reflective Language Black
+Run Once, Write Anyway
+Safe polymorphic type inference for a Dynamically Typed Language: Translating Scheme to ML
+Sage: Hybrid Checking for Flexible Specifications
+Scalable Garbage Collection with Guaranteed MMU
+Schematic: A Concurrent Object-Oriented Extension to Scheme
+Scheme 311 version 4 Reference Manual
+Scheme-79 - Lisp on a Chip
+Scheme 86: An Architecture for Microcoding a Scheme Interpreter
+Scheme86: a system for interpreting scheme
+Scheme86: A System for Interpreting Scheme
+Scheme: An Interpreter for Extended Lambda Calculus
+Scheme as an Interactive Graphics Programming Environment
+Scheme-based Web Programming as a Basis for a CS0 Curriculum
+Scheme-based XML Application Server
+Scheme for Client-Side Scripting in Mobile Web Browsing, or AJAX-Like Behavior Without Javascript
+Scheme Graphics Reference Manual
+Scheme in The Real World: A Case Study
+Scheme Program Documentation Tools
+Scheme program souce code as a semistructured data
+Scheme: The Next Generation
+SchemeUnit and SchemeQL: Two little languages
+SCHEME Version 3.1 Reference Manual
+Scheme Workshop
+Scheming with Objects
+Screen-Replay: A Session Recording and Analysis Tool for DrScheme
+Scsh reference manual
+Selectors Make Set-Based Analysis Too Hard
+Self-Applicable Online Partial Evaluation
+Self-Applicable Partial Evaluation
+Semantic Lego
+Semantics and Scoping of Aspects in Higher-Order Languages
+Semantics-Based Compiling: A Case Study in Type-Directed Partial Evaluation
+Semantics-Directed Compilation of Non-Linear Patterns
+Semantics-directed generation of a Prolog compiler
+Semantics of combinations in scheme
+Semantics of Scheme
+Separate Compilation for Scheme, draft paper
+Separating Stages in the Continuation-Passing Style Transformation
+Sequence Traces for Object-Oriented Executions
+Set-Based Analysis for Full Scheme and Its Use in Soft-Typing
+SGDL-Scheme: A high-level algorithmic language for projective solid modeling programming
+Sharing code through first-class environments
+Shift to Control
+SILK: a playful blend of Scheme and Java
+Similix: A Self-Applicable Partial Evaluator for Scheme
+Similix Binding Time Debugger Manual, system version 4.0
+Simple Imperative Polymorphism
+Simulation of Object-oriented Concepts and Mechanisms in Scheme
+SLAML - Server side LAML
+Slideshow: Functional Presentations
+Small Scheme Stack: a Scheme TCP/IP stack targeting small embedded applications
+Soft Interfaces: Typing Scheme At The Module Level
+Soft Objects: A Paradigm For Object Oriented Programming
+Soft Typing
+Soft Typing: An Approach to Type Checking for Dynamically Typed Languages
+Some may say Ruby is a bad rip-off of Lisp or Smalltalk, and I admit that. But it is nicer to ordinary people.
+Some said the world should be in Perl, Some said in Lisp. Now, having given both a whirl, I held with those who favored Perl. But I fear we passed to men A disappointing founding myth. And should we write it all again, I'd end it with A close-paren.
+SQL, Lisp, and Haskell are the only programming languages that I've seen where one spends more time thinking than typing.
+Static and Dynamic Semantics Processing
+Storage Use Analysis and its Applications
+Struggle, The First Denotational Game
+Subcontinuations
+Super and Inner - Together at Last!
+Super-beta: Copy, constant, and lambda propagation in Scheme
+SXSLT: Manipulation Language for XML
+symposium on Partial evaluation and semantics-based program manipulation
+Syntactic abstraction in Scheme
+Syntactic Abstraction in Scheme
+Syntactic Closures
+Syntactic Exposures - A Lexically-Scoped Macro Facility for Extensible Compilers
+Syntactic Extensions in the Programming Language Lisp
+Tabled execution in Scheme (Scheme Pearl)
+T: A dialect of Lisp or, Lambda: The ultimate software tool
+TA Groupware
+Tail-Recursive Stack Disciplines for an Interpreter
+Taming Macros
+Taming the Y Operator
+Terminator II: Stopping Partial Evaluation of Fully Recursive Programs
+That language is an instrument of human reason, and not merely a medium for the expression of thought, is a truth generally admitted.
+The Abstraction and Instantiation of String-Matching Programs
+The Art of the Interpreter of, the Modularity Complex (Parts Zero, One, and Two)
+The Calculi of Lambda-v-CS Conversion: A Syntactic Theory of Control And State in Imperative Higher-Order Programming Languages
+The conception of list processing as an abstraction created a new world in which designation and dynamic symbolic structure were the defining characteristics. The embedding of the early list processing systems in languages (the IPLs, LISP) is often decried as having been a barrier to the diffusion of list processing techniques throughout programming practice; but it was the vehicle that held the abstraction together.
+The continuation that obeys only obvious stack semantics, O grasshopper, is not the true continuation.
+The Continue Server (or, How I Administered PADL 2002 and 2003)
+The Design and Implementation of a Dataflow Language for Scriptable Debugging
+The DEVS-Scheme Modelling and Simulation Environment
+The duality of XML Markup and Programming notation
+The Essence of Compiling with Continuations
+The Essence of Eta-Expansion in Partial Evaluation
+The Essence of LR Parsing
+The essence of Rum: A theory of the intensional and extensional aspects of Lisp-type computation
+The Evolution of LISP
+The Formal Relationship between Direct and Continuation-passing Style Optimizing Compilers: A Synthesis of Two Paradigms
+The Generation of a Higher-Order Online Partial Evaluator
+The greatest single programming language ever designed.
+The HOP Development Kit
+The Impact of Programming Style on the Performance of Scheme Programs
+The Implementation of Oaklisp
+The implementation of procedurally reflective languages
+The influence of browsers on evaluators or, continuations to program web servers
+The Interprocedural Analysis and Automatic Parallellization of Scheme Programs
+The key to performance is elegance, not battalions of special cases.
+The layers of Larceny's foreign function interface
+The Marriage of MrMathematica and MzScheme
+The most powerful programming language is Lisp. If you don't know Lisp (or its variant, Scheme), you don't appreciate what a powerful language is. Once you learn Lisp you will see what is missing in most other languages.
+The Mystery of the Tower Revealed: a Non-Reflective Description of the Reflective Tower
+The only way to learn a new programming language is by writing programs in it.
+The PGG System - User Manual
+The Revised3 Report on the Algorithmic Language Scheme
+The Revised4 Report on the Algorithmic Language Scheme
+The Revised5 Report on the Algorithmic Language Scheme
+The Revised6 Report on the Algorithmic Language Scheme
+The Revised Report on Scheme, a dialect of Lisp
+The Revised Report on Scheme, a Dialect of Lisp
+The Revised Report on the Syntactic Theories of Sequential Control and State
+The Revised, Revised Report on Scheme, or an Uncommon Lisp
+The Scheme-79 Chip
+The Scheme-81 Architecture - System and Chip
+The Scheme Machine
+The Scheme of things: Streams versus Generators
+The Scheme Programming Language
+The Scribble Reader: An Alternative to S-expressions for Textual Content
+These are your father's parentheses. Elegant weapons, for a more... civilized age.
+The Semantics of Destructive Lisp
+The semantics of Scheme control-flow analysis
+The Standard Semantics of a Subset of SCHEME, a Dialect of LISP
+The Structure and Interpretation of the Computer Science Curriculum
+The SXML Specification, Revision 2.5
+The TeachScheme! Project: Computing and Programming for Every Student
+The T manual
+The T Programming Language: A Dialect of LISP
+Thinking Scheme
+This is Scribe!
+Threads Yield Continuations
+Three Steps for the CPS Transformation
+Tools for Automatic Interface Generation in Scheme
+Topics in Online Partial Evaluation
+Topics in Semantics-based Program Manipulation
+Topsl: a Domain-Specific Language for On-Line Surveys
+Toward abstract profiling
+Toward Leakage Containment
+Towards A Facility for Lexically Scoped, Dynamic Mutual Recursion in Scheme
+Towards a New Perspective on Partial Evaluation: Results, New Ideas, and Future Directions
+Towards compatible and interderivable semantic specifications for the Scheme programming language, part I: abstract machines, natural semantics, and denotational semantics
+Towards compatible and interderivable semantic specifications for the Scheme programming language, part II: reduction semantics and abstract machines
+Towards Efficient Partial Evaluation
+Towards Partial Evaluation of Full Scheme
+Towards the best collection API (extended abstract)
+Trampolined Style
+Transformation-by-Example for XML
+Transforming Interpreters into Inverse Interpreters by Partial Evaluation
+Transliterating Prolog into Scheme
+Translucent Procedures, Abstraction Without Opacity
+trx: Regular-Tree Expressions, now in Scheme
+Tutorial Notes on Partial Evaluation
+Two Flavors of Offline Partial Evaluation
+Two for the Price of One: Composing Partial Evaluation and Compilation
+Type Classes Without Types
+Type-Directed Partial Evaluation
+Ubiquitous Mails
+Un cederom pour scheme -- chacun son entraineur, un entraineur pour tous
+Understanding Memory allocations of Scheme Programs
+Un GC temps reel semi-compactant
+Uniprocessor Garbage Collection Techniques
+Units: Cool Modules for HOT Languages
+Un systeme pour l'optimisation globale de programmes d'ordre superieur par compilation abstraite separee
+Unwind-protect in portable Scheme
+Useless-variable elimination
+User-defined data types
+Using Closures for Code Generation
+Using Lisp as a Markup Language -- The LAML Approach
+Using Types to Avoid Redundant Specialization
+Validation Suite Generation
+Value transforming style
+Visualizing partial evaluation
+Visual Programming with Generators
+WEB Based Lecture Notes - The LENO Approach
+Web Interactions
+Web Programming in Scheme - the LAML approach
+Web Programming in Scheme with LAML
+Well-Shaped Macros
+Well-typed programs can't be blamed
+We were not out to win over the Lisp programmers; we were after the C++ programmers. We managed to drag a lot of them about halfway to Lisp.
+What is the best Scheme interpreter or compiler?
+What is the difference between eq?, eqv?, equal?, and = in Scheme?
+What is the difference between map and apply in scheme?
+What makes Lisp macros so special?
+What's so great about Lisp?
+What's the best way to learn LISP?
+(What the world needs (I think) is not (a Lisp (with fewer parentheses)) but (an English (with more.)))
+Why is Lisp used for AI?
+Why is the Lisp community so fragmented?
+Wide Classes
+Workshop on Scheme and Functional Programming
+Workshop on the Implementation of Lazy Functional Languages
+World With Web: A compiler from world applications to JavaScript
+Writing Hygenic Macros in Scheme with Syntax-Case
+Writing macros in continuation-passing style
+XML in LAML - Web Programming in Scheme
+XML Path Language (XPath) and its functional implementation SXPath
+XML Transformation in Scheme with LAML - a Minimalistic Approach
+XML, XPath, XSLT implementations as SXML, SXPath, and SXSLT
+XSLT and XLink and their implementation with functional techniques
+You can use C++ if you want with GNOME, but we don't assume that you're going to write C++. It's to a large extent based on Scheme, which is a dialect of LISP. LISP being the most powerful and cleanest of languages, that's the language that's the GNU project always prefers.
+(Y Y) Works! A Lecture on the Why of Y
