@@ -143,8 +143,8 @@
       (define index (list-index (lambda (x) (char=? x #\=)) (string->list string)))
 
       (if (not index)
-          (values string #t)
-          (values (substring string 0 index) (substring string (fx+ index 1) (string-length string))))))
+          (values (string->symbol string) #t)
+          (values (string->symbol (substring string 0 index)) (substring string (fx+ index 1) (string-length string))))))
 
   (let loop ((arguments arguments)
              (keywords '())
@@ -278,6 +278,20 @@
   (for-each (lambda (x) (display "** ") (display x) (newline)) errors)
   (exit 1))
 
+(define (guess string)
+  (cond
+   ((file-directory? string) (values 'directory (make-filepath string)))
+   ((and (char=? (string-ref string 0) #\.)
+         (not (file-exists? string))
+         (char-set-contains? char-set:letter+digit (string-ref string 1)))
+    ;; the first char is a dot, the file does not exists, and the
+    ;; second char is a letter or a number; hence it is prolly an
+    ;; extension... might break in some case.
+    (values 'extension string))
+   ((file-exists? string)
+    (values 'file (make-filepath string)))
+   (else (values 'unknown (make-filepath string)))))
+
 (define arew-compile
   (lambda (arguments)
 
@@ -292,7 +306,6 @@
 
     ;; parse ARGUMENTS, and set the following variables:
 
-    (define keywords '())
     (define extensions '())
     (define directories '())
     (define program.scm #f)
@@ -303,29 +316,14 @@
 
     (define errors (make-accumulator))
 
-    (define (guess string)
-      (cond
-       ((file-directory? string) (values 'directory (make-filepath string)))
-       ((and (char=? (string-ref string 0) #\.)
-             (not (file-exists? string))
-             (char-set-contains? char-set:letter+digit (string-ref string 1)))
-        ;; the first char is a dot, the file does not exists, and the
-        ;; second char is a letter or a number; hence it is prolly an
-        ;; extension... might break in some case.
-        (values 'extension string))
-       ((file-exists? string)
-        (values 'file (make-filepath string)))
-       (else (values 'unknown (make-filepath string)))))
-
-
     (define massage-standalone!
       (lambda (standalone)
         (unless (null? standalone)
           (call-with-values (lambda () (guess (car standalone)))
             (lambda (type string*)
-              (pk type string*)
               (case type
                 (directory (set! directories (cons string* directories)))
+                (extension (set! extensions (cons string* extensions)))
                 (file (if program.scm
                           (errors (format #f "You can compile only one file at a time, maybe remove: ~a" (car standalone)))
                           (set! program.scm string*)))
@@ -345,7 +343,7 @@
                    (string->number (cdr keyword))
                    (<= 0 (string->number (cdr keyword) 3)))
               (set! optimize-level* (string->number (cdr keyword))))
-             (else (errors (format #f "Dubious keywords: ~a" (car keyword))))))
+             (else (errors (format #f "Dubious keyword: ~a" (car keyword))))))
           (massage-keywords! (cdr keywords)))))
 
     (call-with-values (lambda () (command-line-parse arguments))
@@ -444,8 +442,54 @@
 
 (define (arew-exec arguments)
 
-  (define-values (dev? optimize-level* extensions directories program.scm extra)
-    (parse-and-validate (command-line-parse arguments) #t #f))
+  ;; parse ARGUMENTS, and set the following variables:
+
+  (define extensions '())
+  (define directories '())
+  (define dev? #f)
+  (define optimize-level* 0)
+  (define extra '())
+  (define program.scm #f)
+
+  (define errors (make-accumulator))
+
+  (define massage-standalone!
+    (lambda (standalone)
+      (unless (null? standalone)
+        (call-with-values (lambda () (guess (car standalone)))
+          (lambda (type string*)
+            (case type
+              (directory (set! directories (cons string* directories)))
+              (extension (set! extensions (cons string* extensions)))
+              (file (if program.scm
+                        (errors (format #f "Already registred a file to execute, maybe remove: ~a" (car standalone)))
+                        (set! program.scm string*)))
+              (unknown (errors (format #f "Directory does not exists: ~a" (car standalone)))))))
+        (massage-standalone! (cdr standalone)))))
+
+  (define massage-keywords!
+    (lambda (keywords)
+      (unless (null? keywords)
+        (let ((keyword (car keywords)))
+          (cond
+           ((and (eq? (car keyword) '--dev) (not (string? (cdr keyword))))
+            (set! dev? #t))
+           ((and (eq? (car keyword) '--optimize-level)
+                 (string->number (cdr keyword))
+                 (<= 0 (string->number (cdr keyword) 3)))
+            (set! optimize-level* (string->number (cdr keyword))))
+           (else (errors (format #f "Dubious keyword: ~a" (car keyword))))))
+        (massage-keywords! (cdr keywords)))))
+
+  (call-with-values (lambda () (command-line-parse arguments))
+    (lambda (keywords standalone extra*)
+      (massage-standalone! standalone)
+      (massage-keywords! keywords)
+      (set! extra extra*)))
+
+  (let ((errors (errors (eof-object))))
+    (unless (null? errors)
+      (display-errors-then-exit errors)))
 
   (unless (null? directories)
     (library-directories directories)
@@ -462,10 +506,6 @@
     (generate-allocation-counts #t)
     (generate-instruction-counts #t))
 
-  (unless dev?
-    (compile-imported-libraries #t)
-    (generate-wpo-files #t))
-
   (command-line (cons program.scm extra))
 
   (load-program program.scm)
@@ -475,8 +515,54 @@
 
 (define (arew-repl arguments)
 
-  (define-values (dev? optimize-level* extensions directories program.scm extra)
-    (parse-and-validate (command-line-parse arguments) #f #f))
+  ;; parse ARGUMENTS, and set the following variables:
+
+  (define extensions '())
+  (define directories '())
+  (define dev? #f)
+  (define optimize-level* 0)
+  (define extra '())
+
+  (define errors (make-accumulator))
+
+  (define massage-standalone!
+    (lambda (standalone)
+      (unless (null? standalone)
+        (call-with-values (lambda () (guess (car standalone)))
+          (lambda (type string*)
+            (case type
+              (directory (set! directories (cons string* directories)))
+              (extension (set! extensions (cons string* extensions)))
+              (file (errors (format #f "Does not support files: ~a" (car standalone))))
+              (unknown (errors (format #f "Directory does not exists: ~a" (car standalone)))))))
+        (massage-standalone! (cdr standalone)))))
+
+  (define massage-keywords!
+    (lambda (keywords)
+      (unless (null? keywords)
+        (let ((keyword (car keywords)))
+          (cond
+           ((and (eq? (car keyword) '--dev) (not (string? (cdr keyword))))
+            (set! dev? #t))
+           ((and (eq? (car keyword) '--optimize-level)
+                 (string->number (cdr keyword))
+                 (<= 0 (string->number (cdr keyword) 3)))
+            (set! optimize-level* (string->number (cdr keyword))))
+           (else (errors (format #f "Dubious keyword: ~a" (car keyword))))))
+        (massage-keywords! (cdr keywords)))))
+
+  (call-with-values (lambda () (command-line-parse arguments))
+    (lambda (keywords standalone extra*)
+      (massage-standalone! standalone)
+      (massage-keywords! keywords)
+      (set! extra extra*)))
+
+  (unless (null? extra)
+    (errors (format #f "No support for extra arguments: ~a" extra)))
+
+  (let ((errors (errors (eof-object))))
+    (unless (null? errors)
+      (display-errors-then-exit errors)))
 
   (unless (null? directories)
     (library-directories directories)
