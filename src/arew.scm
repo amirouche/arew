@@ -1,5 +1,6 @@
 #!chezscheme
 (import (chezscheme))
+(import (only (arew) list-index char-set-contains? char-set:letter+digit))
 
 
 (define AREW_DEBUG (getenv "AREW_DEBUG"))
@@ -98,6 +99,14 @@
                            "dev"
                            (substring out 0 (fx- (string-length out) 1)))))
 
+(define make-accumulator
+  (lambda ()
+    (let ((out '()))
+      (lambda (object)
+        (if (eof-object? object)
+            out
+            (set! out (cons object out)))))))
+
 (define (display-meta)
   (write `(tag ,git-describe))
   (newline)
@@ -115,57 +124,42 @@
   (lambda ()
     (display-usage arew.md)))
 
-(define (string-prefix? string prefix)
-  (if (= (string-length string) (string-length prefix))
-      #f
-      (let loop ((index 0))
-        (if (fx=? index (string-length prefix))
-            #t
-            (if (not (char=? (string-ref prefix index)
-                             (string-ref string index)))
-                #f
-                (loop (fx+ index 1)))))))
-
-(define (string-find string char)
-  (let loop ((index 0))
-    (if (fx=? (string-length string) index)
-        #f
-        (let ((other (string-ref string index)))
-          (if (char=? char other)
-              index
-              (loop (fx+ index 1)))))))
-
 (define (command-line-parse arguments)
+
+  ;; Given the following ARGUMENTS:
+  ;;
+  ;;   '("--foo=bar" "--qux" "-vvv" "name" "another" "--" "olive" "extra")
+  ;;
+  ;; command-line-parse returns the following values:
+  ;;
+  ;;   (values '((--foo . "bar") (--qux . #t) (-vvv . #t)) '("name" "other") '("olive" "extra"))
+  ;;
+  ;; Standalone arguments e.g. "name" and "other" and extra arguments
+  ;; e.g. "olive" and "extra" are returned in the same order as
+  ;; found in ARGUMENTS.
+
+  (define keyword/value
+    (lambda (string)
+      (define index (list-index (lambda (x) (char=? x #\=)) (string->list string)))
+
+      (if (not index)
+          (values string #t)
+          (values (substring string 0 index) (substring string (fx+ index 1) (string-length string))))))
+
   (let loop ((arguments arguments)
              (keywords '())
-             (standalone '())
-             (extra '()))
+             (standalone '()))
     (if (null? arguments)
-        (list (cons 'keywords keywords)
-              (cons 'standalone standalone)
-              (cons 'extra extra))
+        (values keywords (reverse standalone) '())
         (let ((head (car arguments)))
           (cond
            ((string=? head "--")
-            (loop '()
-                  keywords
-                  standalone
-                  (cdr arguments)))
-           ((string-prefix? head "--")
-            (loop (cdr arguments)
-                  (cons (let ((index (string-find head #\=)))
-                          (if index
-                              (cons (string->symbol (substring head 2 index))
-                                    (substring head
-                                               (fx+ index 1)
-                                               (string-length head)))
-                              (cons (string->symbol
-                                     (substring head 2 (string-length head)))
-                                    #t)))
-                        keywords)
-                  standalone
-                  extra))
-           (else (loop (cdr arguments) keywords (cons head standalone) extra)))))))
+            (values keywords (reverse standalone) (cdr arguments)))
+           ((char=? (string-ref head 0) #\-)
+            (call-with-values (lambda () (keyword/value head))
+              (lambda (key value)
+                (loop (cdr arguments) (cons (cons key value) keywords) standalone))))
+           (else (loop (cdr arguments) keywords (cons head standalone))))))))
 
 (define (make-filepath filepath)
   (cond
@@ -276,9 +270,9 @@
       (if a.out?
           (values dev? optimize-level* extensions directories program.scm a.out extra)
           (values dev? optimize-level* extensions directories program.scm extra))
-      (display-errors-and-exit errors)))
+      (display-errors-then-exit errors)))
 
-(define (display-errors-and-exit errors)
+(define (display-errors-then-exit errors)
   (display "* Ooops :|")
   (newline)
   (for-each (lambda (x) (display "** ") (display x) (newline)) errors)
@@ -286,8 +280,6 @@
 
 (define arew-compile
   (lambda (arguments)
-
-    (define arguments* (command-line-parse arguments))
 
     (define program.boot.scm
       '(let ([program-name
@@ -298,32 +290,102 @@
             (command-line-arguments fns)
             (load-program fn)))))
 
-    (define ignore (when (null? arguments)
-                     (exit 1)))
+    ;; parse ARGUMENTS, and set the following variables:
 
-    (define-values (dev? optimize-level* extensions directories program.scm a.out extra)
-      (parse-and-validate (command-line-parse arguments) #t #t))
+    (define keywords '())
+    (define extensions '())
+    (define directories '())
+    (define program.scm #f)
+    (define a.out #f)
+    (define dev? #f)
+    (define optimize-level* 0)
+    (define extra '())
 
-    (define temporary-directory (make-temporary-directory "/tmp/arew-compile"))
+    (define errors (make-accumulator))
 
-    ;; TODO: do not hard code current directory
-    (library-directories (cons* "." temporary-directory directories))
-    (source-directories (cons* "." temporary-directory directories))
+    (define (guess string)
+      (cond
+       ((file-directory? string) (values 'directory (make-filepath string)))
+       ((and (char=? (string-ref string 0) #\.)
+             (not (file-exists? string))
+             (char-set-contains? char-set:letter+digit (string-ref string 1)))
+        ;; the first char is a dot, the file does not exists, and the
+        ;; second char is a letter or a number; hence it is prolly an
+        ;; extension... might break in some case.
+        (values 'extension string))
+       ((file-exists? string)
+        (values 'file (make-filepath string)))
+       (else (values 'unknown (make-filepath string)))))
 
-    (when optimize-level*
+
+    (define massage-standalone!
+      (lambda (standalone)
+        (unless (null? standalone)
+          (call-with-values (lambda () (guess (car standalone)))
+            (lambda (type string*)
+              (pk type string*)
+              (case type
+                (directory (set! directories (cons string* directories)))
+                (file (if program.scm
+                          (errors (format #f "You can compile only one file at a time, maybe remove: ~a" (car standalone)))
+                          (set! program.scm string*)))
+                (unknown (if a.out
+                             (errors (format #f "You provided more than one file that does not exists, maybe remove: ~a" (car standalone)))
+                             (set! a.out string*))))))
+          (massage-standalone! (cdr standalone)))))
+
+    (define massage-keywords!
+      (lambda (keywords)
+        (unless (null? keywords)
+          (let ((keyword (car keywords)))
+            (cond
+             ((and (eq? (car keyword) '--dev) (not (string? (cdr keyword))))
+              (set! dev? #t))
+             ((and (eq? (car keyword) '--optimize-level)
+                   (string->number (cdr keyword))
+                   (<= 0 (string->number (cdr keyword) 3)))
+              (set! optimize-level* (string->number (cdr keyword))))
+             (else (errors (format #f "Dubious keywords: ~a" (car keyword))))))
+          (massage-keywords! (cdr keywords)))))
+
+    (call-with-values (lambda () (command-line-parse arguments))
+      (lambda (keywords standalone extra*)
+        (massage-standalone! standalone)
+        (massage-keywords! keywords)
+        (set! extra extra*)))
+
+    (unless program.scm
+      (errors "You need to provide one and only program file to compile."))
+
+    (unless a.out
+      (errors "You need to provide one and only one target file that will be created, and stuffed with bits."))
+
+    (let ((errors (errors (eof-object))))
+      (unless (null? errors)
+        (display-errors-then-exit errors)))
+
+    ;; All is well, proceed with compilation.
+    (let ((temporary-directory (make-temporary-directory "/tmp/arew-compile")))
+
+      (unless (null? directories)
+        (library-directories directories)
+        (source-directories directories))
+
       (optimize-level optimize-level*)
 
       (unless (null? extensions)
         (library-extensions extensions))
 
       (when dev?
+        ;; TODO: Link to documentation to help me remember what the
+        ;; following does.
         (generate-allocation-counts #t)
         (generate-instruction-counts #t))
 
       (compile-imported-libraries #t)
       (generate-wpo-files #t)
 
-      ;; create program.boot from program.boot.scm
+      ;; create program.boot
 
       (call-with-port (open-file-output-port (string-append temporary-directory "/arew.boot"))
         (lambda (port)
@@ -522,7 +584,7 @@
         (standalone! (ref arguments 'standalone '()))
 
         (if (not (null? errors))
-            (display-errors-and-exit errors)
+            (display-errors-then-exit errors)
             (values directories files extensions))))
 
     (compile-profile 'source)

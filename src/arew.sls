@@ -631,6 +631,8 @@
    unzip5
    xcons
    zip
+   char-set-contains?
+   char-set:letter+digit
    )
 
   (import (prefix (chezscheme) chez-)
