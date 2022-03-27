@@ -630,79 +630,69 @@
 
 (define arew-check
   (lambda (arguments)
-    (define massage
-      (lambda (arguments)
-        (define errors '())
-        (define fail-fast? #f)
-        (define extensions '())
-        (define directories '())
-        (define files '())
+    (define errors (make-accumulator))
 
-        (define keywords!
-          (lambda (keywords)
-            (let loop ((keywords keywords))
-              (unless (null? keywords)
-                (case (car keywords)
-                  (fail-fast (set! fail-fast? #t) (loop (cdr keywords)))
-                  (else
-                   (set! errors (cons (format #f "Unexpected keyword: ~a" (car keywords)) errors))
-                   (loop (cdr keywords))))))))
+    (define fail-fast? #f)
+    (define extensions '())
+    (define directories '())
+    (define files '())
 
-        (define standalone!
-          (lambda (strings)
-            (unless (null? strings)
-              (let ((head (car strings)))
-                (cond
-                 ((file-directory? head)
-                  (set! directories (cons (make-filepath head) directories)))
-                 ((file-regular? head #t)
-                  (set! files (cons (make-filepath head) files)))
-                 ((char=? (string-ref head 0) #\.)
-                  (set! extensions (cons head extensions)))
-                 (else
-                  (set! errors
-                        (cons (format #f "Does not look like a directory, file or extension: ~a"
-                                      head)
-                              errors)))))
-              (standalone! (cdr strings)))))
+    (define massage-keywords!
+      (lambda (keywords)
+        (unless (null? keywords)
+          (case (caar keywords)
+            (--fail-fast (set! fail-fast? #t))
+            (else (errors (format #f "Unkown keywords: ~a" (caar keywords))))))))
 
-        (keywords! (ref arguments 'keywords '()))
-        (standalone! (ref arguments 'standalone '()))
+    (define massage-standalone!
+      (lambda (standalone)
+        (unless (null? standalone)
+          (call-with-values (lambda () (guess (car standalone)))
+            (lambda (type string*)
+              (case type
+                (directory (set! directories (cons string* directories)))
+                (extension (set! extensions (cons string* extensions)))
+                (file (set! files (cons string* files)))
+                (unknown (errors (format #f "Unknown file: ~a" (car standalone)))))))
+          (massage-standalone! (cdr standalone)))))
 
-        (if (not (null? errors))
-            (display-errors-then-exit errors)
-            (values directories files extensions))))
+    (call-with-values (lambda () (command-line-parse arguments))
+      (lambda (keywords standalone extra)
+        (massage-keywords! keywords)
+        (massage-standalone! standalone)))
 
     (compile-profile 'source)
 
-    (call-with-values (lambda () (massage (command-line-parse arguments)))
-      (lambda (directories files extensions)
-        ;; TODO: support discovery
-        (when (null? files)
-          (error 'arew "discovery is not supported yet, you need to provide one file with tests"))
+    ;; TODO: support discovery
+    (when (null? files)
+      (errors "Discovery is not supported yet, you need to provide one file with tests"))
 
-        (unless (null? (cdr files))
-          (error 'arew "at this time, only one file can be checked at once"))
+    (unless (and (not (null? files)) (null? (cdr files)))
+      (errors "At this time, only one file can be checked at once"))
 
-        (unless (null? directories)
-          (library-directories directories)
-          (source-directories directories))
+    (let ((errors (errors (eof-object))))
+      (unless (null? errors)
+        (display-errors-then-exit errors)))
 
-        (unless (null? extensions)
-          (library-extensions extensions))
+    (unless (null? directories)
+      (library-directories directories)
+      (source-directories directories))
 
-        (let* ((temporary-directory (make-temporary-directory "/tmp/arew-check"))
-               (check (string-append temporary-directory "/check.scm"))
-               (program (build-check-program files)))
-          (call-with-output-file check
-            (lambda (port)
-              (let loop ((program program))
-                (unless (null? program)
-                  (pretty-print (car program) port)
-                  (loop (cdr program))))))
-          (current-directory temporary-directory)
-          (arew-exec (list "--dev" "." check))
-          (format (current-output-port) "* profile can be found at: ~a/profile.html\n" temporary-directory))))))
+    (unless (null? extensions)
+      (library-extensions extensions))
+
+    (let* ((temporary-directory (make-temporary-directory "/tmp/arew-check"))
+           (check (string-append temporary-directory "/check.scm"))
+           (program (build-check-program files)))
+      (call-with-output-file check
+        (lambda (port)
+          (let loop ((program program))
+            (unless (null? program)
+              (pretty-print (car program) port)
+              (loop (cdr program))))))
+      (current-directory temporary-directory)
+      (arew-exec (list "--dev" "." check))
+      (format (current-output-port) "* profile can be found at: ~a/profile.html\n" temporary-directory))))
 
 (self-evaluating-vectors #t)
 
