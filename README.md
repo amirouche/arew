@@ -2,7 +2,7 @@
 
 **experimental**
 
-![tooling](https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?iauto=format&fit=crop&w=1024&q=80)
+![dominos falling on a wood table](https://images.unsplash.com/photo-1596461010503-fc620ea96f52?auto=format&fit=crop&w=1740&q=80)
 
 ## Getting started
 
