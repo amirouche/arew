@@ -25,12 +25,12 @@
 (define char-set:whitespace
   (char-set-union char-set:separator
 		  (list->char-set (map integer->char
-				       '(9 ;; tab
-					 10 ;; newline
-					 11 ;; vtab
-					 12 ;; page
-					 13 ;; return
-					 )))))
+                           '(9 ;; tab
+                             10 ;; newline
+                             11 ;; vtab
+                             12 ;; page
+                             13 ;; return
+                             )))))
 
 
 (define char-set:printing
