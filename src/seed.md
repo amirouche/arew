@@ -1,4 +1,4 @@
-# Ruse
+# SEED
 
 ## booleans, representation `#false`, `#true`, predicate `boolean?`
 
