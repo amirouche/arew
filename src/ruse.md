@@ -1,34 +1,30 @@
 # Ruse
 
-## booleans, representation `#false`, `#true`, predicate `boolean?`
+## `#inert`, `inert?`
 
-## integers, predicate: `integer?`
-
-## inert: representation `#inert`, predicate: `inert?`
-
-## null: representation `#null`, predicate: `null?`
+## `assume`
 
 ## equivalence under mutation: `eq?`
 
 ## equivalence: `equal?`
 
-## branch control: `if`
+## `#false`, `#true`, `boolean?`, `if`
 
-## pair: `cons`, `car`, and `cdr`
+## `string?`, `string-ref`, `string-append`
 
-## `eval`
+## `pair?`, `cons`, `car`, `cdr`, `#null`, `null?`
+
+## `number?`, `+`, `-`, `*`, `/`
+
+## `apply`
 
 ## `define`
 
 ## `set!`
 
-## `call-with-current-context`, `context?`, `guard`, `root`, `context-continuation`
+## `call-with-current-context`, `context?`, `guard`, `context-root`, `context-continuation`
 
-## `make-encapsulation-type` -> `(e p? d)`
-
-- `encapsulator`
-- `predicate?`
-- `decapsulator`
+## `make-encapsulation` -> `(list encapsulator predicate? decapsulator)`
 
 ## `make-keyed-dynamic-variable` -> `(b a)`
 
@@ -48,22 +44,8 @@ returns different `b` and `a`.
   `a` is not within the dynamic extent of any call to `b`, an error is
   signaled.
 
-## `make-keyed-static-variable` -> `(b a)`
+## `make-box`, `box-set!, `unbox`
 
-Returns a list of the form `(b a)`, where `b` and `a` are
-applicatives, as follows. Each call to `make-keyed-static-variable`
-returns different `b` and `a`.
+## hash-table
 
-- `b` is an applicative that takes two arguments, the second of which
-  must be an environment. It constructs and returns a
-  child-environment of its second argument, with initially no local
-  bindings.
-
-- `a` is an applicative that takes zero arguments. If the dynamic
-  environment `e` of the call to a has an improper ancestor that was
-  constructed by a call to `b`, then a returns the value of the first
-  argument passed to `b` in the first such environment encountered by
-  a depth-first traversal of the improper ancestors of `e`. If `e` has
-  no improper ancestors constructed via `b`, an error is signaled.
-
-## `match`
+## pattern matching
