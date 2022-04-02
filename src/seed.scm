@@ -1,5 +1,5 @@
 ;; This file was part of SINK, a Scheme-based Interpreter for
-;; Not-quite Kernel. Reworked under the name SEED.
+;; Not-quite Kernel. Reworked under the name: SEED.
 ;;
 ;; Copyright (c) 2009 John N. Shutt
 ;; Copyright (c) 2022 Amirouche A. BOUBEKKI
@@ -17,10 +17,9 @@
 ;; You should have received a copy of the GNU Library General Public
 ;; License along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  This
-;; file is part of SINK, a Scheme-based Interpreter for Not-quite
+;; file was part of SINK, a Scheme-based Interpreter for Not-quite
 ;; Kernel
 (import (chezscheme))
-
 
 ;;
 ;; Evaluate an expression in an environment, with given youngest enclosing
@@ -30,9 +29,9 @@
 ;; actually have to be constructed.
 ;;
 
-(define eval
+(define kernel-eval
   (lambda (exp env context)
-    (cond ((kernel-pair? exp)  (combine (eval (kernel-car exp) env context)
+    (cond ((kernel-pair? exp)  (combine (kernel-eval (kernel-car exp) env context)
                                         (kernel-cdr exp)
                                         env
                                         context))
@@ -40,8 +39,8 @@
           (else exp))))
 
 ;;
-;; Evaluate a combination in an environment,
-;; with given youngest enclosing context.
+;; Evaluate a combination in an environment, with given youngest
+;; enclosing context.
 ;;
 
 (define combine
@@ -74,7 +73,7 @@
                 (describe-object applicative)))
          context)
         (simple-map
-         (lambda (operand) (eval operand env context))
+         (lambda (operand) (kernel-eval operand env context))
          operand-tree))))
 
 ;;
@@ -111,7 +110,7 @@
       (newline)
       (if (eof-object? exp)
           (terminal-pass '() context))
-      (kernel-write (eval exp env context)
+      (kernel-write (kernel-eval exp env context)
                     (get-kernel-current-output-port context)
                     context)
       (newline)
@@ -170,11 +169,11 @@
                    '$if
                    (action->checked-operative
                     (lambda (operand-tree env context)
-                      (let ((test  (eval (kernel-car operand-tree) env context)))
+                      (let ((test  (kernel-eval (kernel-car operand-tree) env context)))
                         (if (boolean? test)
                             (if test
-                                (eval (kernel-cadr operand-tree) env context)
-                                (eval (kernel-caddr operand-tree) env context))
+                                (kernel-eval (kernel-cadr operand-tree) env context)
+                                (kernel-eval (kernel-caddr operand-tree) env context))
                             (error-pass
                              (make-error-descriptor
                               "Non-boolean test result, when calling #[operative $if]")
@@ -750,7 +749,7 @@
                     (lambda (operand-tree env context)
                       (call-with-guarded-context
                        (lambda (context)
-                         (eval (kernel-list (kernel-car operand-tree) context)
+                         (kernel-eval (kernel-list (kernel-car operand-tree) context)
                                env context))
                        context
                        '()
@@ -776,9 +775,9 @@
                                        (c (make-context receiver parent '() '()
                                                         error-context terminal-context alist)))))))
                              ((parent 'receiver)
-                              (eval (kernel-cons (unwrap appv) operand-tree)
+                              (kernel-eval (kernel-cons (unwrap appv) operand-tree)
                                     env parent)))))))
-                    2 3 context? applicative? environment?)
+                    2 3 context? applicative? kernel-environment?)
 
                    'guard-continuation
                    (action->checked-applicative
@@ -790,7 +789,7 @@
                                       (interceptor  (unwrap (kernel-cadr clause))))
                                   (cons selector
                                         (lambda (x)
-                                          (eval (kernel-list
+                                          (kernel-eval (kernel-list
                                                  interceptor
                                                  x (context->applicative divert))
                                                 env divert))))))
@@ -939,7 +938,7 @@
      (cons (make-empty-frame) (get-environment-frames parent))
      (make-alist (get-environment-alist parent) key value))))
 
-(define environment? (make-object-type-predicate 'environment))
+(define kernel-environment? (make-object-type-predicate 'environment))
 
 (define environment-keyed-lookup
   (lambda (key env context)
@@ -1166,13 +1165,13 @@
     (add-bindings! env
 
                    'environment?
-                   (unary-predicate->applicative  environment?)
+                   (unary-predicate->applicative  kernel-environment?)
 
                    'eval
                    (action->checked-applicative
                     (lambda (operand-tree env context)
-                      (eval (kernel-car operand-tree) (kernel-cadr operand-tree) context))
-                    2 2 any? environment?)
+                      (kernel-eval (kernel-car operand-tree) (kernel-cadr operand-tree) context))
+                    2 2 any? kernel-environment?)
 
                    'make-environment
                    (naive->checked-applicative
@@ -1180,13 +1179,13 @@
                       (apply make-environment
                              (copy-kernel-list->list operand-tree)))
                     "make-environment"
-                    0 -1 environment?)
+                    0 -1 kernel-environment?)
 
                    '$define!
                    (action->checked-operative
                     (lambda (operand-tree env context)
                       (let ((ed  (match! env (kernel-car operand-tree)
-                                         (eval (kernel-cadr operand-tree)
+                                         (kernel-eval (kernel-cadr operand-tree)
                                                env context))))
                         (if (error-descriptor? ed)
                             (begin
@@ -1945,7 +1944,7 @@
                           (lambda (operand-list env context)
                             (call-with-keyed-context
                              (lambda (context)
-                               (eval (kernel-cdr operand-list) env context))
+                               (kernel-eval (kernel-cdr operand-list) env context))
                              context
                              key
                              (kernel-car operand-list)))
@@ -1968,7 +1967,7 @@
                              key
                              (kernel-car operand-list)
                              (kernel-cadr operand-list)))
-                          2 2 any? environment?)
+                          2 2 any? kernel-environment?)
                          (action->checked-applicative
                           (lambda (operand-list env context)
                             (environment-keyed-lookup key env context))
@@ -2890,7 +2889,7 @@
                                                                           " when calling "
                                                                           (describe-object this))
                                                (error-pass ed context))
-                                             (eval-sequence body local-env context))))))))
+                                             (kernel-eval-sequence body local-env context))))))))
                           this)))
                     3 3)
                    ;; changing these numbers from "3 3" to "2 -1" enables compound bodies
@@ -3856,7 +3855,7 @@
 ;; Evaluates a sequence of expressions, and returns the last result.
 ;; Used by both $vau and $sequence.
 ;;
-(define eval-sequence
+(define kernel-eval-sequence
   (lambda (operand-tree env context)
     (cond ((null? operand-tree)  inert)
           ((not (kernel-pair? operand-tree))
@@ -3865,10 +3864,10 @@
              "Non-list operand-tree when calling #[operative $sequence]")
             context))
           ((null? (kernel-cdr operand-tree))
-           (eval (kernel-car operand-tree) env context))
+           (kernel-eval (kernel-car operand-tree) env context))
           (else
-           (eval          (kernel-car operand-tree) env context)
-           (eval-sequence (kernel-cdr operand-tree) env context)))))
+           (kernel-eval          (kernel-car operand-tree) env context)
+           (kernel-eval-sequence (kernel-cdr operand-tree) env context)))))
 
 ;;
 ;; Predicates the combiner type.
@@ -3992,7 +3991,7 @@
                                               (begin
                                                 (close-kernel-input-port kip context)
                                                 legacy)
-                                              (aux (eval object env context)))))))
+                                              (aux (kernel-eval object env context)))))))
                          (aux inert)))
                      context
                      (list (cons '()
@@ -4046,8 +4045,10 @@
                      (set! okay #f)))))
     (if okay
         (begin
-          (eval (list->kernel-list '(load "library.snk"))
+          (kernel-eval (list->kernel-list '(load "library.snk"))
                 ground-environment context)
-          (eval (list->kernel-list '(display "coucou les loulous"))
+          (kernel-eval (list->kernel-list '(display "kernel for the win"))
                 ground-environment context)
           ))))
+
+(interpreter)

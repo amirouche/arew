@@ -1,27 +1,20 @@
-(import (chezscheme)
-        (ruse matchable))
+(import (chezscheme))
+(import (only (arew) match))
 
-(define pk
-  ;; Write ARGS, and return last value of ARGS
-  (lambda args
-    (write args)
-    (newline)
-    (car (reverse args))))
 
 (define pk*
-  ;; Write ARGS, and return last value of ARGS
+  ;; Pretty print ARGS, and return last value of ARGS
   (lambda args
-    (pretty-print args)
-    (newline)
+    (display "#; ") (pretty-print args (current-error-port))
+    (newline (current-error-port))
     (car (reverse args))))
 
 (define (any predicate? objects)
-  (let loop ((objects objects))
-    (if (null? objects)
-        #f
-        (if (predicate? (car objects))
-            #t
-            (loop (cdr objects))))))
+  (if (null? objects)
+      #f
+      (if (predicate? (car objects))
+          #t
+          (any predicate? (cdr objects)))))
 
 (define ref
   ;; Return the value associated with OBJECT in ALIST; otherwise
@@ -127,13 +120,11 @@
 (define (constant? object)
   (or (boolean? object)
       (number? object)
-      (string? object)
-      (vector? object)
-      (bytevector? object)))
+      (string? object)))
 
 ;; steps
 
-  ;;; step-check
+;;; step-check
 
 (define step-check
   (lambda (program)

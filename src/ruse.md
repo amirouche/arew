@@ -49,3 +49,7 @@ returns different `b` and `a`.
 ## hash-table
 
 ## pattern matching
+
+## bytevector
+
+## vector

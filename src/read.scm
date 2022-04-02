@@ -9,6 +9,8 @@
   (column source-column)
   (offset source-offset))
 
+(define %source-null (make-source #f -1 -1 -1))
+
 (define-record-type <object>
   (make-object source type-name representation object)
   object?
@@ -21,13 +23,17 @@
   (lambda (object)
     (write (object-representation object))))
 
-;; xchar is pair of a char associated with an instance of <source>
+;; xchar is pair of a char associated with an instance of <source>;
 ;; char and xchar are not available in the object language.
 (define xchar->char car)
 (define xchar-source cdr)
 
+(define make-xchar
+  (lambda (source char)
+    (make-object source 'string (list->string (list char)) (list->string (list char)))))
+
 ;; an object-string is a string associated with an instance of <source>
-(define list->object-string
+(define make-object-string
   (lambda (xchars)
     (let ((source (xchar-source (car xchars)))
           (string (list->string (map xchar->char xchars))))
@@ -39,8 +45,8 @@
 (define (generator-char->xchar filepath generator)
 
   (define line 0)
-  (define column 0)
-  (define offset 0)++
+  (define column -1)
+  (define offset -1)
 
   (unless (and filepath (char=? (string-ref filepath 0) #//))
     (error 'object "filepath should be an absolute path to a file or #f"))
@@ -49,11 +55,12 @@
     (let ((char (generator)))
       (if (eof-object? char)
           (eof-object)
-          (let ((xchar (cons char (make-source line column offset))))
+          (let ((xchar (cons char (make-source filepath line column offset))))
             (when (char=? char #\newline)
               (set! line (fx+ line 1))
               (set! column 0))
             (set! offset (fx+ offset 1))
+            (set! column (fx+ column 1))
             xchar)))))
 
 (define list->generator
@@ -99,13 +106,12 @@
 
     (define read-chunk
       (lambda (xchars next-xchar out)
-        ;; A chunk may be a number, otherwise it is a symbol.  It ends
-        ;; on control characters.
+        ;; A chunk may be a string, a number, otherwise it is a
+        ;; symbol.  It ends on control characters.
 
         (define chunk-control-character?
           (lambda (xchar)
-            (memv (xchar->char xchar) (list #\"
-                                            #\newline
+            (memv (xchar->char xchar) (list #\newline
                                             #\tab
                                             #\space
                                             #\(
@@ -124,24 +130,19 @@
                 (case xchar
                   (#\( (set! continue (read-token xchars (xchars))) 'list-open)
                   (#\) (set! continue (read-token xchars (xchars))) 'list-end)
-                  (#\" (let ((out (read-object-string xchars)))
-                         (set! continue (read-token xchars (xchars)))
-                         out))
                   (else
                    (call-with-values (lambda () (read-chunk xchars (xchars) '()))
                      (lambda (chars next-xchar)
-                       (let ((first (xchar->char xchar)))
-                         (let* ((string (list->string (cons first chars)))
-                                (maybe-number (string->number string)))
-                           (if maybe-number
-                               maybe-number
-                               (string->symbol string)))))))))))))
+                       (let* ((string (make-object-string (cons xchar xchars)))
+                              (maybe-number (string->number string)))
+                         (if maybe-number
+                             maybe-number
+                             (string->symbol string)))))))))))))
 
-
-    (define continue (read-token xchars #\space))
+    (define continue (read-token xchars (make-xchar %source-null #\space)))
 
     (lambda ()
-      (continue)))
+      (continue))))
 
 (define object-read-string
   (lambda (string)
@@ -150,12 +151,11 @@
       (lambda (tokens)
         (let loop ((out '()))
           (let ((token (tokens)))
-            (when (eof-object? token)
-              (error 'object-read-string "unspected end of generator"))
+            (if (eof-object? token)
+                out
+                (case token
+                  (list-open (read tokens))
+                  (list-close (reverse out))
+                  (else (loop (cons token out)))))))))
 
-            (case token
-              (list-open (read tokens))
-              (list-close (reverse out))
-              (else (loop (cons token out))))))))
-
-    (read (make-token-generator (generator-char->xchar (list->generator (string->list string)))))))
+    (read (make-token-generator (generator-char->xchar #f (list->generator (string->list string)))))))

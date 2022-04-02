@@ -633,6 +633,7 @@
    zip
    char-set-contains?
    char-set:letter+digit
+   list->char-set
    )
 
   (import (prefix (chezscheme) chez-)
